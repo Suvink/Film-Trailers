@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -8,16 +8,16 @@ const AddFilm = () => {
     title: "",
     description: "",
     trailer: "",
-    photo: null,
+    photo: null, // Change this to null
   });
   const [status, setStatus] = useState("");
 
   const handleChange = (e, field) => {
-    setData({ ...data, [field]: e.target.value });
+    setData((prevData) => ({ ...prevData, [field]: e.target.value }));
   };
 
   const handleFileChange = (e) => {
-    setData({ ...data, photo: e.target.files[0] });
+    setData({ ...data, photo: e.target.files[0] }); // Use e.target.files[0]
   };
 
   async function createFilm(e) {
@@ -34,7 +34,7 @@ const AddFilm = () => {
       const response = await Axios.post(
         "http://localhost:8000/home",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } } // Fix the content type header
       );
 
       if (response.status === 201) {
@@ -42,6 +42,7 @@ const AddFilm = () => {
       }
     } catch (err) {
       console.error(err);
+      setStatus("Error adding film");
     } finally {
       setLoading(false);
     }
@@ -67,7 +68,7 @@ const AddFilm = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Add Film"}
         </button>
-        <h1>{status !== "" ? status : ""}</h1>
+        <h1>{status}</h1>
       </form>
       <Link to="/">Go to Movies</Link>
     </>

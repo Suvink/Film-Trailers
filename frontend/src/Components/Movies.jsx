@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Movies() {
   const [data, setData] = useState([]);
@@ -27,7 +27,6 @@ function Movies() {
     try {
       setLoading(true);
       await Axios.delete(`http://localhost:8000/home/${id}`);
-
       setData((prevData) => prevData.filter((film) => film._id !== id));
     } catch (error) {
       console.error(error);
@@ -40,7 +39,7 @@ function Movies() {
     try {
       setLoading(true);
       await Axios.put(`http://localhost:8000/home/${id}`, {
-        filmname: film,
+        title: film, // Corrected the property name to match the server expectation
       });
 
       setData((prevData) =>
@@ -58,8 +57,9 @@ function Movies() {
   const handleSearch = async (e, searchTerm) => {
     e.preventDefault();
     try {
+      setData([]);
       setLoading(true);
-      const response = await Axios.post(
+      const response = await Axios.get(
         `http://localhost:8000/home/${searchTerm}`
       );
       setData(response.data);
@@ -87,12 +87,16 @@ function Movies() {
           Search
         </button>
       </form>
-      {data.length ? (
+      {data && data.length ? (
         data.map((x) => (
           <div key={x._id}>
             <h2 style={{ fontSize: 32 }}>{x.title}</h2>
             <p>{x.description || "No description found"}</p>
-            <img src={x.image} alt={`Image of ${x.title}`} />
+            <img
+              src={x.image || "No image available"}
+              alt={`Image of ${x.title}`}
+            />
+            <br></br>
             <a href={x.trailer}>Trailer for {x.title}</a>
             <label>
               <button
@@ -103,6 +107,7 @@ function Movies() {
                 Delete Film
               </button>
               <input
+                value={modifiedUser}
                 onChange={(e) => {
                   setModifiedUser(e.target.value);
                 }}
