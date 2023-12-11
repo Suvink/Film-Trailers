@@ -4,6 +4,8 @@ require("dotenv").config();
 const port = process.env.PORT;
 const cluster = process.env.CLUSTER;
 const cors = require("cors");
+const helmet = require("helmet");
+const compression = require("compression");
 const mongoose = require("mongoose");
 const homepage = require("./routes/home");
 const { join } = require("path");
@@ -16,6 +18,8 @@ app.use(cors());
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
+app.use(helmet());
+app.use(compression({}));
 app.use("/public/images", express.static(__dirname + "/public/images/"));
 app.use("/home", homepage);
 app.use("/register", register);

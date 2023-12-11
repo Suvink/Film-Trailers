@@ -40,13 +40,13 @@ async function DeleteItems(req, res) {
 
 async function UpdateFilm(req, res) {
   const { id } = req.params;
-  const { filmname } = req.body;
+  const { title } = req.body;
   const convertedString = String(id);
   const filmExists = await mediaModel.findOne({ _id: convertedString });
   if (!filmExists) {
     return res.status(404).json({ Alert: "Film doesn't exist" });
   } else {
-    await mediaModel.findOneAndUpdate({ title: filmname });
+    await mediaModel.findOneAndUpdate({ title: title });
     return res.status(200).json({ Alert: "Film Updated" });
   }
 }

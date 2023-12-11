@@ -8,7 +8,8 @@ const AddFilm = () => {
     title: "",
     description: "",
     trailer: "",
-    photo: null, // Change this to null
+    photo: null,
+    alternate: "",
   });
   const [status, setStatus] = useState("");
 
@@ -17,7 +18,7 @@ const AddFilm = () => {
   };
 
   const handleFileChange = (e) => {
-    setData({ ...data, photo: e.target.files[0] }); // Use e.target.files[0]
+    setData({ ...data, photo: e.target.files[0] });
   };
 
   async function createFilm(e) {
@@ -29,13 +30,14 @@ const AddFilm = () => {
       formData.append("title", data.title);
       formData.append("description", data.description);
       formData.append("trailer", data.trailer);
-      formData.append("photo", data.photo);
+      // formData.append("photo", data.photo);
 
-      const response = await Axios.post(
-        "http://localhost:8000/home",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } } // Fix the content type header
-      );
+      const response = await Axios.post("http://localhost:8000/home", {
+        title: data.title,
+        description: data.description,
+        trailer: data.trailer,
+        alternate: data.alternate,
+      });
 
       if (response.status === 201) {
         setStatus(`${data.title} Added`);
@@ -51,6 +53,7 @@ const AddFilm = () => {
   return (
     <>
       <h1 style={{ fontSize: 32 }}>Add Film</h1>
+
       <form onSubmit={createFilm}>
         <input
           onChange={(e) => handleChange(e, "title")}
@@ -63,6 +66,10 @@ const AddFilm = () => {
         <input
           onChange={(e) => handleChange(e, "trailer")}
           placeholder="Enter trailer"
+        />
+        <input
+          onChange={(e) => handleChange(e, "alternate")}
+          placeholder="Enter alternate image by address"
         />
         <input onChange={handleFileChange} type="file" />
         <button type="submit" disabled={loading}>
