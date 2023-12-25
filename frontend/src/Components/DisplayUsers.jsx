@@ -36,6 +36,7 @@ const DisplayUsers = () => {
                 <h1>Username : {x.username}</h1>
                 <h2>Password : {x.password}</h2>
                 <h3>Mail : {x.mail}</h3>
+                <img src={x.photo} alt=""></img>
               </label>
               <br></br>
             </div>

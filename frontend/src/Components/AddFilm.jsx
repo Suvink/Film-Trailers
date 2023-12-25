@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,10 @@ const AddFilm = () => {
     alternate: "",
   });
   const [status, setStatus] = useState("");
+  const titlefield = useRef();
+  const descfield = useRef();
+  const trailerfield = useRef();
+  const imagefield = useRef();
 
   const handleChange = (e, field) => {
     setData((prevData) => ({ ...prevData, [field]: e.target.value }));
@@ -32,12 +36,16 @@ const AddFilm = () => {
       formData.append("trailer", data.trailer);
       // formData.append("photo", data.photo);
 
-      const response = await Axios.post("http://localhost:8000/home", {
-        title: data.title,
-        description: data.description,
-        trailer: data.trailer,
-        alternate: data.alternate,
-      });
+      const response = await Axios.post(
+        "http://localhost:8000/home",
+        {
+          title: data.title,
+          description: data.description,
+          trailer: data.trailer,
+          alternate: data.alternate,
+        },
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       if (response.status === 201) {
         setStatus(`${data.title} Added`);
@@ -46,6 +54,10 @@ const AddFilm = () => {
       console.error(err);
       setStatus("Error adding film");
     } finally {
+      titlefield.current.value = "";
+      descfield.current.value = "";
+      trailerfield.current.value = "";
+      imagefield.current.value = "";
       setLoading(false);
     }
   }
@@ -56,18 +68,22 @@ const AddFilm = () => {
 
       <form onSubmit={createFilm}>
         <input
+          ref={titlefield}
           onChange={(e) => handleChange(e, "title")}
           placeholder="Enter Title"
         />
         <input
+          ref={descfield}
           onChange={(e) => handleChange(e, "description")}
           placeholder="Enter description"
         />
         <input
+          ref={trailerfield}
           onChange={(e) => handleChange(e, "trailer")}
           placeholder="Enter trailer"
         />
         <input
+          ref={imagefield}
           onChange={(e) => handleChange(e, "alternate")}
           placeholder="Enter alternate image by address"
         />

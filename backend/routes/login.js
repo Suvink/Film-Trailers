@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../models/registration");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const loginController = require("../controllers/LoginController");
 
 // function generateAccessToken(user) {
 //   const payload = {
@@ -45,54 +43,6 @@ const jwt = require("jsonwebtoken");
 //   next();
 // }
 
-router.route("/").post(async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password)
-    return res.status(400).json({ Alert: `Username or password not provided` });
-
-  const userValidity = await userController.findOne({ username: username });
-  if (!userValidity) {
-    return res.status(404).json({ Alert: `${username} Invalid Username` });
-  } else {
-    const passwordValidity = await bcrypt.compareSync(
-      password,
-      userValidity.password
-    );
-    if (!passwordValidity) {
-      return res.status(403).json({ Alert: `Incorrect password` });
-    } else {
-      const accessToken = jwt.sign(
-        {
-          username: userValidity.username,
-          password: userValidity.password,
-        },
-        process.env.ACCESS_TOKEN,
-        {
-          expiresIn: "10m",
-        }
-      );
-
-      const refreshToken = jwt.sign(
-        {
-          username: userValidity.username,
-        },
-        process.env.REFRESH_TOKEN,
-        { expiresIn: "1d" }
-      );
-
-      res.cookie("jwt", refreshToken, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
-      return res.status(200).json({
-        Alert: `${username} logged in and your access Token is ${accessToken}`,
-      });
-    }
-  }
-});
+router.route("/").post(loginController.Login);
 
 module.exports = router;

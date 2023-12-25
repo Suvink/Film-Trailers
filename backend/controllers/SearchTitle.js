@@ -8,12 +8,14 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 async function SearchByTitle(req, res) {
-  const { title } = req.params;
+  const { title } = req?.params;
   if (!title) return res.status(400).json({ Alert: "Title not found" });
 
   try {
-    const titletoString = String(title);
-    const matches = await mediaModel.find({ title: titletoString });
+    const titleToString = String(title);
+    const matches = await mediaModel.find({
+      title: { $regex: titleToString, $options: "i" },
+    });
 
     if (matches.length === 0) {
       return res.status(404).json({ Alert: "No matching films found" });
@@ -27,7 +29,7 @@ async function SearchByTitle(req, res) {
 }
 
 async function DeleteItems(req, res) {
-  const { id } = req.params;
+  const { id } = req?.params;
   const convertedString = String(id);
   const filmExists = await mediaModel.findOne({ _id: convertedString });
   if (!filmExists) {
@@ -39,7 +41,7 @@ async function DeleteItems(req, res) {
 }
 
 async function UpdateFilm(req, res) {
-  const { id } = req.params;
+  const { id } = req?.params;
   const { title } = req.body;
   const convertedString = String(id);
   const filmExists = await mediaModel.findOne({ _id: convertedString });

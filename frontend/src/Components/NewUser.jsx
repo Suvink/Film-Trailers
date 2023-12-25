@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
@@ -7,23 +7,33 @@ const NewUser = () => {
     username: "",
     password: "",
     mail: "",
+    photo: "",
   });
+  const usernamefield = useRef();
+  const passwordfield = useRef();
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
   const createUser = async (e) => {
     e.preventDefault();
+
+    const { username, password, mail, photo } = data;
     try {
       setLoading(true);
-      const response = await Axios.post("http://localhost:8000/register", data);
+      const response = await Axios.post("http://localhost:8000/register", {
+        username,
+        password,
+        mail,
+        photo,
+      }); //destructured for more control over data object
 
       if (response.status === 201) {
         setStatus(`${data.username} Created`);
       } else if (response.status === 409) {
         setStatus(`${data.username} or ${data.mail} already exist`);
-      } else {
-        setStatus("Error");
+      } else if (response.status === 400) {
+        setStatus("User already exists");
       }
     } catch (err) {
       console.error(err);
@@ -40,11 +50,13 @@ const NewUser = () => {
       <form onSubmit={createUser}>
         <input
           type="text"
+          ref={usernamefield}
           onChange={(e) => setData({ ...data, username: e.target.value })}
           placeholder="Enter Username"
           value={data.username}
         />
         <input
+          ref={passwordfield}
           type="password"
           onChange={(e) => setData({ ...data, password: e.target.value })}
           placeholder="Enter password"
@@ -56,6 +68,14 @@ const NewUser = () => {
           placeholder="Enter mail"
           value={data.mail}
         />
+        <input
+          onChange={(e) => {
+            setData({ ...data, photo: e.target.value });
+          }}
+          value={data.photo}
+          placeholder="Enter Photo"
+        ></input>
+        <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Create User"}
         </button>

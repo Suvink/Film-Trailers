@@ -6,6 +6,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
       trim: true,
       min: 5,
+      max: 20,
       default: "",
     },
     description: {

@@ -98,7 +98,11 @@ function Movies() {
                 src={x.alternate || "No image available"}
                 alt={`Image of ${x.title}`}
               />
-              <p>{x.description || "No description found"}</p>
+              <br></br>
+              <label>
+                <h1>Description</h1>
+                <p>{x?.description ? x.description : "No description found"}</p>
+              </label>
 
               <br></br>
               <a href={x.trailer}>Trailer for {x.title}</a>

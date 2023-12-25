@@ -7,7 +7,7 @@ async function GetUsers(req, res) {
 }
 
 async function CreateUser(req, res) {
-  const { username, password, mail } = req.body;
+  const { username, password, mail, photo } = req?.body;
 
   if (!username || !password || !mail)
     return res
@@ -24,6 +24,7 @@ async function CreateUser(req, res) {
       username,
       password: hashedPWD,
       mail,
+      photo,
     });
     await newUser.save();
     return res.status(201).json({ Alert: `${username} Saved` });

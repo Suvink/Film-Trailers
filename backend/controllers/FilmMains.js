@@ -25,7 +25,7 @@ async function GetFilms(req, res) {
 
 async function CreateFilms(req, res) {
   try {
-    const { title, description, trailer, photo, alternate } = req.body;
+    const { title, description, trailer, photo, alternate } = req?.body;
     if (!title || !trailer) {
       return res.status(400).json({ alert: "Title or trailer missing" });
     }
