@@ -15,7 +15,6 @@ export default function App() {
         <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
         <Route path="/newuser" element={<NewUser></NewUser>}></Route>
         <Route path="/addfilm" element={<AddFilm />} />
-        <Route path="/delete" element={<DeleteFilm></DeleteFilm>}></Route>
         <Route path="/register" element={<Register></Register>}></Route>
       </Routes>
     </BrowserRouter>
