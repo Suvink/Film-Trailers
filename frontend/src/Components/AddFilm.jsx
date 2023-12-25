@@ -30,22 +30,15 @@ const AddFilm = () => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      formData.append("trailer", data.trailer);
+      const { title, description, trailer, photo, alternate } = data; //destructured from data object
       // formData.append("photo", data.photo);
 
-      const response = await Axios.post(
-        "http://localhost:8000/home",
-        {
-          title: data.title,
-          description: data.description,
-          trailer: data.trailer,
-          alternate: data.alternate,
-        },
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await Axios.post("http://localhost:8000/home", {
+        title: title,
+        description: description,
+        trailer: trailer,
+        alternate: alternate,
+      });
 
       if (response.status === 201) {
         setStatus(`${data.title} Added`);
