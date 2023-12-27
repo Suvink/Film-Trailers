@@ -45,7 +45,7 @@ const NewUser = () => {
 
   return (
     <>
-      <Link to="/manage">View Users</Link>
+      <h1>Welcome to VeloFlix</h1>
       <h1>Register</h1>
       <form onSubmit={createUser}>
         <input
@@ -80,6 +80,9 @@ const NewUser = () => {
           {loading ? "Loading..." : "Create User"}
         </button>
       </form>
+      <p>
+        Already an user ? <Link to="/login">Click Here to Login!</Link>
+      </p>
     </>
   );
 };

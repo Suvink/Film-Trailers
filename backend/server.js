@@ -12,6 +12,7 @@ const { join } = require("path");
 const fs = require("fs");
 const register = require("./routes/users");
 const login = require("./routes/login");
+const gemini = require("./routes/gemini");
 
 app.use(express.json());
 app.use(cors());
@@ -24,6 +25,7 @@ app.use("/public/images", express.static(__dirname + "/public/images/"));
 app.use("/home", homepage);
 app.use("/register", register);
 app.use("/login", login);
+app.use("/gemini", gemini);
 
 async function start() {
   try {

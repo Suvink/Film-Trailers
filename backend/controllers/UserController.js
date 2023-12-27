@@ -1,5 +1,5 @@
 const userSchema = require("../models/registration");
-const bcrypt = require("bcrypt");
+const HashPassword = require("../security/hashing");
 
 async function GetUsers(req, res) {
   const users = await userSchema.find();
@@ -19,10 +19,11 @@ async function CreateUser(req, res) {
   });
 
   if (!findUser) {
-    const hashedPWD = bcrypt.hashSync(password, 10);
+    const x = new HashPassword();
+    const encrypted = x.hashPass(password);
     const newUser = new userSchema({
       username,
-      password: hashedPWD,
+      password: encrypted,
       mail,
       photo,
     });

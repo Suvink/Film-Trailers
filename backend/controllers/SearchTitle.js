@@ -2,6 +2,7 @@ const multer = require("multer");
 const sharp = require("sharp");
 const { join } = require("path");
 const mediaModel = require("../models/media");
+const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const storage = multer.memoryStorage();
@@ -44,7 +45,9 @@ async function UpdateFilm(req, res) {
   const { id } = req?.params;
   const { title } = req.body;
   const convertedString = String(id);
-  const filmExists = await mediaModel.findOne({ _id: convertedString });
+  const filmExists = await mediaModel.findOne({
+    _id: new ObjectId(convertedString),
+  });
   if (!filmExists) {
     return res.status(404).json({ Alert: "Film doesn't exist" });
   } else {
