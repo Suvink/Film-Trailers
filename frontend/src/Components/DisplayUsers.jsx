@@ -9,13 +9,8 @@ const DisplayUsers = () => {
     async function UserData() {
       try {
         setLoading(true);
-        const r = await Axios.get("http://localhost:8000/register")
-          .then((r) => {
-            setUsers(r.data);
-          })
-          .catch((e) => {
-            setUsers(e.response.data);
-          });
+        const r = await Axios.get("http://localhost:8000/register");
+        setUsers(r.data);
       } catch (err) {
         console.error(err);
       } finally {

@@ -22,7 +22,7 @@ const Login = () => {
       const r = await Axios.post(`${endPoint}/login`, {
         username,
         password,
-      }).then((r) => {
+      }).then(() => {
         if (r.status === 200) {
           setStatus("User Logged in");
         } else if (r.status === 409) {
