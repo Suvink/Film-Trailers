@@ -14,9 +14,16 @@ async function CreateUser(req, res) {
       .status(400)
       .json({ Alert: "No Username/password or mail provided" });
 
-  const findUser = await userSchema.findOne({
-    $or: [{ username: username }, { mail: mail }],
-  });
+  const findUser = await userSchema.findOne(
+    {
+      $or: [{ username: username }, { mail: mail }],
+    },
+    (err) => {
+      if (err) {
+        throw err;
+      }
+    }
+  );
 
   if (!findUser) {
     const x = new HashPassword();

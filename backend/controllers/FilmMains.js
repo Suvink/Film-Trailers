@@ -1,17 +1,6 @@
-const multer = require("multer");
-const sharp = require("sharp");
-const { join } = require("path");
+const photos = require("../security/photos");
 const mediaModel = require("../models/media");
 require("dotenv").config();
-
-const storage = multer.diskStorage({
-  destination: "./public/images",
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage }).array("file");
 
 async function GetFilms(req, res) {
   try {
@@ -26,40 +15,22 @@ async function GetFilms(req, res) {
 async function CreateFilms(req, res) {
   try {
     const { title, description, trailer, photo, alternate } = req?.body;
+
     if (!title || !trailer) {
       return res.status(400).json({ alert: "Title or trailer missing" });
     }
 
     const filmExists = await mediaModel.findOne({ title: title });
 
-    let photofilename = req.body.photo;
-    if (req.file) {
-      upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-          return res.status(500).json(err);
-        } else if (err) {
-          return res.status(500).json(err);
-        }
-      });
-
-      photofilename = `${Date.now()}.jpeg`;
-
-      const filePath = join(__dirname, "public/filmimages", photofilename);
-
-      console.log("File Path:", filePath);
-
-      await sharp(req.file.buffer)
-        .resize(480, 360)
-        .jpeg({ mozjpeg: true, quality: 60 })
-        .toFile(filePath);
-    }
+    let photofilename = photo;
+    const x = new photos.snapshot(photofilename); //still finding difficulty properly saving , so pls bare with me on this part
 
     if (!filmExists) {
       const newMovie = new mediaModel({
         title,
         description,
         trailer,
-        photo: photofilename,
+        photo: x,
         alternate,
       });
 

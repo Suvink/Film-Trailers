@@ -3,6 +3,7 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
 const cluster = process.env.CLUSTER;
+const { Server } = require("socket.io");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
@@ -13,6 +14,8 @@ const fs = require("fs");
 const register = require("./routes/users");
 const login = require("./routes/login");
 const gemini = require("./routes/gemini");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 app.use(express.json());
 app.use(cors());
@@ -22,6 +25,9 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 app.use(helmet());
 app.use(compression({}));
 app.use("/public/images", express.static(__dirname + "/public/images/"));
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/home", homepage);
 app.use("/register", register);
 app.use("/login", login);

@@ -1,6 +1,4 @@
 const multer = require("multer");
-const sharp = require("sharp");
-const { join } = require("path");
 const mediaModel = require("../models/media");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();

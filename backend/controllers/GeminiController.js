@@ -10,7 +10,7 @@ async function GeminiCall(req, res) {
   const prompt = `What do you think about ${data}?`;
 
   const result = await model.generateContent(prompt);
-  const response = await result.response;
+  const response = result.response;
   const text = response.text();
   if (text.length !== 0) {
     return res.status(200).json(text);
