@@ -38,7 +38,7 @@ function Movies() {
     }
   }
 
-  async function editTitle(id) {
+  async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
       await Axios.put(`${API_URL}/home/${id}`, { title: modifiedTitle });
@@ -48,11 +48,11 @@ function Movies() {
           film._id === id ? { ...film, title: modifiedTitle } : film
         )
       );
-      setModifiedTitle("");
     } catch (error) {
       console.error("Error editing title:", error);
     } finally {
       setLoading(false);
+      setModifiedTitle("");
     }
   }
 

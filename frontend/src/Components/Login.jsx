@@ -27,6 +27,7 @@ const Login = ({ setLogged }) => {
         if (r.status === 200) {
           setStatus("User Logged in");
           setLogged(true);
+          window.location.href = "http://localhost:5173/";
         } else if (r.status === 404) {
           setStatus("Username or Password invalid, please try again!");
         } else {

@@ -31,6 +31,7 @@ const NewUser = ({ setLogged }) => {
       if (response.status === 201) {
         setStatus(`${data.username} Created`);
         setLogged(true);
+        window.location.href = "http://localhost:5173/";
       } else if (response.status === 409) {
         setStatus(`${data.username} or ${data.mail} already exist`);
       } else if (response.status === 400) {

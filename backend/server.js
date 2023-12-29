@@ -18,7 +18,7 @@ const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors()); //allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
