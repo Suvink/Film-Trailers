@@ -11,18 +11,18 @@ function Movies() {
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
 
-  useEffect(() => {
-    async function fetchFromBack() {
-      try {
-        setLoading(true);
-        const response = await Axios.get(`${API_URL}/home`);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchFromBack() {
+    try {
+      setLoading(true);
+      const response = await Axios.get(`${API_URL}/home`);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
+  }
+  useEffect(() => {
     fetchFromBack();
   }, []);
 
@@ -97,7 +97,9 @@ function Movies() {
             Search
           </button>
         </form>
-        {data && data.length ? (
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : data && data.length ? (
           data.map((x) => (
             <div key={x._id}>
               <h1 style={{ fontSize: 32 }}>{x.title}</h1>

@@ -23,14 +23,13 @@ async function CreateFilms(req, res) {
     const filmExists = await mediaModel.findOne({ title: title });
 
     let photofilename = photo;
-    const x = new photos.snapshot(photofilename); //still finding difficulty properly saving , so pls bare with me on this part
+    // const x = new photos.snapshot(photofilename); //still finding difficulty properly saving , so pls bare with me on this part
 
     if (!filmExists) {
       const newMovie = new mediaModel({
         title,
         description,
         trailer,
-        photo: x,
         alternate,
       });
 
