@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import Navbar from "../Misc/Navbar";
 
 const API_URL = "http://localhost:8000";
 
@@ -78,6 +79,7 @@ function Movies() {
   return (
     <>
       <div className="container mx-auto">
+        <Navbar></Navbar>
         <Link to="/newuser">Register</Link>
         <form
           onSubmit={(e) => {

@@ -4,7 +4,6 @@ import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
 import "./App.css";
 import DisplayUsers from "./Components/DisplayUsers";
-import Register from "./Components/Register";
 import LandingPage from "./Components/Landing";
 import { useState, createContext } from "react";
 import Login from "./Components/Login";
@@ -12,7 +11,7 @@ import Login from "./Components/Login";
 export default function App() {
   const [logged, setLogged] = useState();
 
-  const UserData = createContext();
+  const UserData = createContext(logged, setLogged);
 
   const setLogin = async (user) => {
     setLogged(user);
@@ -27,15 +26,15 @@ export default function App() {
             path="/home"
             element={
               <LandingPage
-                setLogged={true}
+                setLogged={false}
                 changeSignup={setLogin}
+                logged={logged}
               ></LandingPage>
             } //not registered by default
           ></Route>
           <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>
           <Route path="/addfilm" element={<AddFilm />} />
-          <Route path="/register" element={<Register></Register>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route
             path="/manageuser"
