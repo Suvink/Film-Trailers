@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
-const NewUser = () => {
+const NewUser = ({ setLogged }) => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -30,6 +30,7 @@ const NewUser = () => {
 
       if (response.status === 201) {
         setStatus(`${data.username} Created`);
+        setLogged(true);
       } else if (response.status === 409) {
         setStatus(`${data.username} or ${data.mail} already exist`);
       } else if (response.status === 400) {

@@ -7,7 +7,6 @@ const API_URL = "http://localhost:8000";
 
 function Movies() {
   const [data, setData] = useState([]);
-  const [gemini, setGemini] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
@@ -43,7 +42,13 @@ function Movies() {
     try {
       setLoading(true);
       await Axios.put(`${API_URL}/home/${id}`, { title: modifiedTitle });
-      window.location.reload();
+
+      setData((prevData) =>
+        prevData.map((film) =>
+          film._id === id ? { ...film, title: modifiedTitle } : film
+        )
+      );
+      setModifiedTitle("");
     } catch (error) {
       console.error("Error editing title:", error);
     } finally {
@@ -64,35 +69,31 @@ function Movies() {
     }
   };
 
-  async function GeminiCall(title) {
-    try {
-      setLoading(true);
-      const response = await Axios.post(`${API_URL}/gemini`, { data: title });
-      setGemini(response.data);
-    } catch (err) {
-      console.error("Error calling Gemini:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <>
       <div className="container mx-auto">
-        <Navbar></Navbar>
-        <Link to="/newuser">Register</Link>
+        <Navbar />
+        <Link to="/newuser" className="text-blue-500 hover:underline">
+          Register
+        </Link>
         <form
           onSubmit={(e) => {
             handleSearch(e, searchTerm);
           }}
+          className="mt-4"
         >
           <input
             type="text"
             placeholder="Search Here..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border border-gray-300 mr-2"
           />
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="p-2 bg-blue-500 text-white"
+          >
             Search
           </button>
         </form>
@@ -133,26 +134,6 @@ function Movies() {
                 >
                   Make changes
                 </button>
-
-                {/*                 <div>
-                  <h1>{`Wanna know what Gemini thinks about ${x.title}?`}</h1>
-                  <button
-                    onClick={() => {
-                      GeminiCall(x.title);
-                    }}
-                  >
-                    Click Here
-                  </button>
-                  <p>
-                    {loading ? (
-                      <h1>Loading...</h1>
-                    ) : data && data.length ? (
-                      JSON.stringify(gemini)
-                    ) : (
-                      <h1>No results found</h1>
-                    )}
-                  </p>
-                </div>*/}
               </label>
             </div>
           ))
@@ -160,7 +141,9 @@ function Movies() {
           <p>No Trailers Added</p>
         )}
 
-        <Link to="/addfilm">Add Film</Link>
+        <Link to="/addfilm" className="text-blue-500 hover:underline">
+          Add Film
+        </Link>
       </div>
     </>
   );

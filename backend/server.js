@@ -3,7 +3,6 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
 const cluster = process.env.CLUSTER;
-const { Server } = require("socket.io");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");

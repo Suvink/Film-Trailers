@@ -23,8 +23,13 @@ const DisplayUsers = () => {
   async function DeleteUser(id) {
     try {
       setLoading(true);
-      const r = await Axios.delete(`http://localhost:8000/register/${id}`);
-      UserData();
+      const response = await Axios.delete(
+        `http://localhost:8000/register/${id}`
+      ).then(() => {
+        if (response.status === 200) {
+          UserData();
+        }
+      });
     } catch (err) {
       console.error(err);
     } finally {

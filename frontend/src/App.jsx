@@ -5,18 +5,12 @@ import NewUser from "./Components/NewUser";
 import "./App.css";
 import DisplayUsers from "./Components/DisplayUsers";
 import LandingPage from "./Components/Landing";
-import { useState, createContext } from "react";
+import { createContext } from "react";
 import Login from "./Components/Login";
+import ForgotPass from "./Components/ForgotPass";
 
 export default function App() {
-  const [logged, setLogged] = useState();
-
-  const UserData = createContext(logged, setLogged);
-
-  const setLogin = async (user) => {
-    setLogged(user);
-  };
-
+  const UserData = createContext();
   return (
     <BrowserRouter>
       <UserData.Provider>
@@ -24,13 +18,7 @@ export default function App() {
           <Route path="/" element={<Movies />} />
           <Route
             path="/home"
-            element={
-              <LandingPage
-                setLogged={false}
-                changeSignup={setLogin}
-                logged={logged}
-              ></LandingPage>
-            } //not registered by default
+            element={<LandingPage setLogged={false}></LandingPage>} //not registered by default
           ></Route>
           <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>
@@ -40,6 +28,7 @@ export default function App() {
             path="/manageuser"
             element={<DisplayUsers></DisplayUsers>}
           ></Route>
+          <Route path="/forgotpass" element={<ForgotPass></ForgotPass>}></Route>
         </Routes>
       </UserData.Provider>
     </BrowserRouter>

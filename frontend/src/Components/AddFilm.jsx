@@ -80,7 +80,7 @@ const AddFilm = () => {
           onChange={(e) => handleChange(e, "alternate")}
           placeholder="Enter alternate image by address"
         />
-        <input onChange={handleFileChange} type="file" />
+
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Add Film"}
         </button>
