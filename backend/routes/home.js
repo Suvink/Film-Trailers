@@ -12,4 +12,7 @@ router
 router.route("/:title").get(Search.SearchByTitle);
 router.route("/:id").delete(Search.DeleteItems).put(Search.UpdateFilm);
 
+router.route("/:title").get(limiter, Search.SearchByTitle);
+router.route("/:id").delete(Search.DeleteItems).put(Search.UpdateFilm);
+
 module.exports = router;
