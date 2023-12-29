@@ -16,6 +16,7 @@ const login = require("./routes/login");
 const gemini = require("./routes/gemini");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const linked = require("./routes/linked");
 
 app.use(express.json());
 app.use(cors());
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/home", homepage);
+app.use("/links", linked);
 app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);

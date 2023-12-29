@@ -25,7 +25,7 @@ const Login = () => {
       }).then(() => {
         if (r.status === 200) {
           setStatus("User Logged in");
-        } else if (r.status === 409) {
+        } else if (r.status === 404) {
           setStatus("Username or Password invalid, please try again!");
         } else {
           setStatus("Something went wrong!");

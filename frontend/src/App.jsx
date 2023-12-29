@@ -7,6 +7,7 @@ import DisplayUsers from "./Components/DisplayUsers";
 import Register from "./Components/Register";
 import LandingPage from "./Components/Landing";
 import { useState, createContext } from "react";
+import Login from "./Components/Login";
 
 export default function App() {
   const [logged, setLogged] = useState();
@@ -19,7 +20,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <UserData.Provider va>
+      <UserData.Provider>
         <Routes>
           <Route path="/" element={<Movies />} />
           <Route
@@ -35,6 +36,11 @@ export default function App() {
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/register" element={<Register></Register>}></Route>
+          <Route path="/login" element={<Login></Login>}></Route>
+          <Route
+            path="/manageuser"
+            element={<DisplayUsers></DisplayUsers>}
+          ></Route>
         </Routes>
       </UserData.Provider>
     </BrowserRouter>

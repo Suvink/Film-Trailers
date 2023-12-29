@@ -7,6 +7,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 async function SearchByTitle(req, res) {
+  console.log(newAdmins.retrieveFunction());
   const { title } = req?.params;
   if (!title) return res.status(400).json({ Alert: "Title not found" });
 

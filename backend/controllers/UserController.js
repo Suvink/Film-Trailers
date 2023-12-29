@@ -43,4 +43,17 @@ async function CreateUser(req, res) {
   }
 }
 
-module.exports = { CreateUser, GetUsers };
+const deleteUser = async (req, res) => {
+  const { id } = req?.params;
+  const convertedID = String(id);
+  if (!id) return res.status(400).json({ Alert: "No ID Found" });
+
+  const findId = await userSchema.deleteOne({ _id: convertedID });
+  if (!findId) {
+    return res.status(400).json({ Alert: "ID not found" });
+  } else {
+    return res.status(200).json({ Alert: `${id} Deleted` });
+  }
+};
+
+module.exports = { CreateUser, GetUsers, deleteUser };

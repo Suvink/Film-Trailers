@@ -77,11 +77,8 @@ function Movies() {
 
   return (
     <>
-      <Link to="/register">Register</Link>
       <div className="container mx-auto">
-        <h1>
-          Click <Link to="/newuser">here</Link> to add an user
-        </h1>
+        <Link to="/newuser">Register</Link>
         <form
           onSubmit={(e) => {
             handleSearch(e, searchTerm);
@@ -120,7 +117,7 @@ function Movies() {
                 >
                   Delete Film
                 </button>
-                <Link to={`/${x._id}`}>Checkout more</Link>
+
                 <input
                   onChange={(e) => {
                     setModifiedTitle(e.target.value);
@@ -134,6 +131,7 @@ function Movies() {
                 >
                   Make changes
                 </button>
+
                 {/*                 <div>
                   <h1>{`Wanna know what Gemini thinks about ${x.title}?`}</h1>
                   <button
