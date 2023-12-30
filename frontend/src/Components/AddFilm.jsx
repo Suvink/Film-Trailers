@@ -10,12 +10,14 @@ const AddFilm = () => {
     trailer: "",
     photo: null,
     alternate: "",
+    rating: "",
   });
   const [status, setStatus] = useState("");
   const titlefield = useRef();
   const descfield = useRef();
   const trailerfield = useRef();
   const imagefield = useRef();
+  const ratingfield = useRef();
 
   const handleChange = (e, field) => {
     setData((prevData) => ({ ...prevData, [field]: e.target.value }));
@@ -80,6 +82,12 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
         />
 
+        <input
+          ref={ratingfield}
+          onChange={(e) => handleChange(e, "rating")}
+          type="number"
+          placeholder="Enter rating"
+        />
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Add Film"}
         </button>

@@ -146,7 +146,7 @@ function Movies(props) {
                   Trailer for {x.title}
                 </a>
               </div>
-              <div className="mt-2 flex items-center">
+              <div className="mt-2 flex items-center" style={{ padding: "2%" }}>
                 <button
                   onClick={() => {
                     deleteFilm(x._id);
@@ -176,10 +176,6 @@ function Movies(props) {
         ) : (
           <p className="mt-4 text-lg font-bold">No Trailers Added</p>
         )}
-
-        <Link to="/addfilm" className="mt-4 text-blue-500 hover:underline">
-          Add Film
-        </Link>
       </div>
     </>
   );
