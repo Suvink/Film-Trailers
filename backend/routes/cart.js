@@ -86,7 +86,7 @@ router.route("/:id").post(async (req, res) => {
       });
 
       const mailOptions = {
-        from: '"Team VeloFlix" <from@imvexloxal@gmail.com>',
+        from: '"Team VeloFlix" <from@imveloxal@gmail.com>',
         to: mail,
         subject: "Order Placed",
         text: `Dear user, your order for ${quantity} ${item}(s) has been placed. Thank you!`,
