@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
-import Navbar from "../Misc/Navbar";
 
 const API_URL = "http://localhost:8000";
 
-function Movies() {
+function Movies(props) {
+  const { logged } = props;
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -72,9 +72,28 @@ function Movies() {
     }
   };
 
+  const [time, setTime] = useState("");
+  const today = new Date();
+  const hours = today.getHours();
+
+  useEffect(() => {
+    if (hours < 12) {
+      setTime("Morning");
+    } else if (hours > 12) {
+      setTime("Afternoon");
+    } else if (hours > 17) {
+      setTime("Evening");
+    } else if (hours > 18) {
+      setTime("Seems like it's night");
+    }
+  }, [hours]);
+
   return (
     <>
       <div className="container mx-auto">
+        <h1>
+          Welcome {logged ? logged : "Guest"}, Good {time}
+        </h1>
         <form
           onSubmit={(e) => {
             handleSearch(e, searchTerm);

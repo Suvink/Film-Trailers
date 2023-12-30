@@ -2,9 +2,8 @@ import NewUser from "./NewUser";
 import Login from "./Login";
 import { useContext, useState } from "react";
 
-const LandingPage = () => {
-  const [logged, setLogged] = useState(false);
-
+const LandingPage = (props) => {
+  const { logged, setLogged } = props;
   if (!logged) {
     return <NewUser setLogged={setLogged}></NewUser>;
   } else {

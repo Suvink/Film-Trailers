@@ -4,7 +4,7 @@ import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
 import DisplayUsers from "./Components/DisplayUsers";
 import LandingPage from "./Components/Landing";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
 import "./App.css";
@@ -14,17 +14,20 @@ import ViewExisting from "./Components/ViewExisting";
 import Navbar from "./Misc/Navbar";
 
 export default function App() {
-  const user = "oof";
+  const [logged, setLogged] = useState(false);
+
   const UserData = createContext();
   return (
     <BrowserRouter>
-      <UserData.Provider value={user}>
+      <UserData.Provider>
         <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Movies />} />
+          <Route path="/" element={<Movies setLogged={setLogged} />} />
           <Route
             path="/home"
-            element={<LandingPage setLogged={false}></LandingPage>} //not registered by default
+            element={
+              <LandingPage setLogged={setLogged} logged={logged}></LandingPage>
+            } //not registered by default
           ></Route>
           <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>
