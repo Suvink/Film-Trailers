@@ -8,6 +8,7 @@ const Cart = () => {
     item: "",
     description: "",
     quantity: 5,
+    image: "",
   });
   const [status, setStatus] = useState("");
 
@@ -27,6 +28,8 @@ const Cart = () => {
 
       if (response.status === 201) {
         setStatus(`Item ${cart.item} created`);
+      } else if (response.status === 400) {
+        setStatus("Bad Request");
       }
     } catch (err) {
       console.error(err);
@@ -41,7 +44,7 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "2%", justifyContent: "space-evenly 2px" }}>
       <h1>Cart</h1>
       <form onSubmit={AddItem}>
         <input
@@ -59,6 +62,13 @@ const Cart = () => {
           ref={descRef}
         />
         <input
+          name="image"
+          onChange={handleChange}
+          placeholder="Enter image..."
+          defaultValue={cart.image}
+          ref={quanRef}
+        />
+        <input
           name="quantity"
           onChange={handleChange}
           placeholder="Enter Quantity..."
@@ -69,6 +79,7 @@ const Cart = () => {
         <button type="submit">{loading ? "Loading..." : "Add to Cart"}</button>
       </form>
       <p>{status}</p>
+      <br></br>
       <ViewExisting />
     </div>
   );

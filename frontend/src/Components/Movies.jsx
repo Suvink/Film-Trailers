@@ -75,10 +75,6 @@ function Movies() {
   return (
     <>
       <div className="container mx-auto">
-        <Navbar />
-        <Link to="/newuser" className="text-blue-500 hover:underline">
-          Register
-        </Link>
         <form
           onSubmit={(e) => {
             handleSearch(e, searchTerm);
@@ -124,7 +120,7 @@ function Movies() {
               />
               <div className="mt-2">
                 <h1 className="text-lg font-bold">Description</h1>
-                <p>{x?.description ? x.description : "No description found"}</p>
+                <p>{x.description ? x.description : "No description found"}</p>
               </div>
               <div className="mt-2">
                 <a href={x.trailer} className="text-blue-500 hover:underline">

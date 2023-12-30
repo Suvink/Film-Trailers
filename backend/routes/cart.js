@@ -9,7 +9,7 @@ router
     res.json(data).status(200);
   })
   .post(async (req, res) => {
-    const { item, description, quantity } = req?.body;
+    const { item, description, quantity, image } = req?.body;
 
     if (!item || !description || !quantity)
       return res
@@ -22,6 +22,8 @@ router
         itemName: item,
         itemDescription: description,
         itemQuantity: quantity,
+        itemPhoto: image,
+        itemAvailability: true,
       });
 
       await newItem.save();

@@ -11,6 +11,7 @@ import "./App.css";
 import ChatPage from "./Components/Socket";
 import Cart from "./Components/Cart";
 import ViewExisting from "./Components/ViewExisting";
+import Navbar from "./Misc/Navbar";
 
 export default function App() {
   const user = "oof";
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <UserData.Provider value={user}>
+        <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />} />
           <Route

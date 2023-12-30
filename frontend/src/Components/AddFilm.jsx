@@ -21,9 +21,9 @@ const AddFilm = () => {
     setData((prevData) => ({ ...prevData, [field]: e.target.value }));
   };
 
-  const handleFileChange = (e) => {
-    setData({ ...data, photo: e.target.files[0] });
-  };
+  // const handleFileChange = (e) => {
+  //   setData({ ...data, photo: e.target.files[0] });
+  // };
 
   async function createFilm(e) {
     e.preventDefault();
@@ -31,7 +31,6 @@ const AddFilm = () => {
       setLoading(true);
 
       const { title, description, trailer, photo, alternate } = data; //destructured from data object
-      // formData.append("photo", data.photo);
 
       const response = await Axios.post("http://localhost:8000/home", {
         title: title,
@@ -68,7 +67,7 @@ const AddFilm = () => {
         <input
           ref={descfield}
           onChange={(e) => handleChange(e, "description")}
-          placeholder="Enter description"
+          placeholder="Write your description"
         />
         <input
           ref={trailerfield}
