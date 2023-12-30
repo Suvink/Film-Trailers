@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:8000";
 
@@ -75,16 +74,15 @@ function Movies(props) {
   const [time, setTime] = useState("");
   const today = new Date();
   const hours = today.getHours();
-
   useEffect(() => {
     if (hours < 12) {
-      setTime("Morning");
-    } else if (hours > 12) {
-      setTime("Afternoon");
-    } else if (hours > 17) {
-      setTime("Evening");
-    } else if (hours > 18) {
-      setTime("Seems like it's night");
+      setTime("Good Morning!");
+    } else if (hours < 17) {
+      setTime("Good Afternoon!");
+    } else if (hours < 20) {
+      setTime("Good Evening!");
+    } else {
+      setTime("What are you doing up late? :)");
     }
   }, [hours]);
 
@@ -92,7 +90,7 @@ function Movies(props) {
     <>
       <div className="container mx-auto">
         <h1>
-          Welcome {logged ? logged : "Guest"}, Good {time}
+          Welcome {logged ? logged : "Guest"}, {time}
         </h1>
         <form
           onSubmit={(e) => {

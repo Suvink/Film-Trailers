@@ -1,6 +1,5 @@
 import NewUser from "./NewUser";
 import Login from "./Login";
-import { useContext, useState } from "react";
 
 const LandingPage = (props) => {
   const { logged, setLogged } = props;
