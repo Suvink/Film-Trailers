@@ -9,7 +9,7 @@ const Login = ({ setLogged }) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
 
-  const endPoint = "";
+  const endPoint = "http://localhost:8000";
 
   async function LogUser(e) {
     e.preventDefault();

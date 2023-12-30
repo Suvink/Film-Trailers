@@ -16,12 +16,14 @@ const gemini = require("./routes/gemini");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
+const cart = require("./routes/cart");
 
 app.use(express.json());
 app.use(cors()); //allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
+
 app.use(helmet());
 app.use(compression({}));
 app.use("/public/images", express.static(__dirname + "/public/images/"));
@@ -33,10 +35,12 @@ app.use("/links", linked);
 app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
+app.use("/cart", cart);
 
 async function start() {
   try {
     await mongoose.connect(cluster, { useNewUrlParser: true });
+
     app.listen(port, console.log(`Servers up on port ${port}`));
   } catch (err) {
     console.error(err);

@@ -7,39 +7,37 @@ async function GetUsers(req, res) {
 }
 
 async function CreateUser(req, res) {
-  const { username, password, mail, photo } = req?.body;
+  try {
+    const { username, password, mail, photo } = req?.body;
 
-  if (!username || !password || !mail)
-    return res
-      .status(400)
-      .json({ Alert: "No Username/password or mail provided" });
+    if (!username || !password || !mail)
+      return res
+        .status(400)
+        .json({ Alert: "No Username/password or mail provided" });
 
-  const findUser = await userSchema.findOne(
-    {
+    const findUser = await userSchema.findOne({
       $or: [{ username: username }, { mail: mail }],
-    },
-    (err) => {
-      if (err) {
-        throw err;
-      }
-    }
-  );
-
-  if (!findUser) {
-    const x = new HashPassword();
-    const encrypted = x.hashPass(password);
-    const newUser = new userSchema({
-      username,
-      password: encrypted,
-      mail,
-      photo,
     });
-    await newUser.save();
-    return res.status(201).json({ Alert: `${username} Saved` });
-  } else {
-    return res
-      .status(400)
-      .json({ Alert: `${username} or ${mail} already taken` });
+
+    if (!findUser) {
+      const x = new HashPassword();
+      const encrypted = x.hashPass(password);
+      const newUser = new userSchema({
+        username,
+        password: encrypted,
+        mail,
+        photo,
+      });
+      await newUser.save();
+      return res.status(201).json({ Alert: `${username} Saved` });
+    } else {
+      return res
+        .status(400)
+        .json({ Alert: `${username} or ${mail} already taken` });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ Alert: "Internal server error" });
   }
 }
 

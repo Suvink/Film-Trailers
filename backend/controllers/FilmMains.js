@@ -1,4 +1,4 @@
-const photos = require("../security/photos");
+// const photos = require("../security/photos");
 const mediaModel = require("../models/media");
 require("dotenv").config();
 
@@ -22,7 +22,7 @@ async function CreateFilms(req, res) {
 
     const filmExists = await mediaModel.findOne({ title: title });
 
-    let photofilename = photo;
+    // let photofilename = photo;
     // const x = new photos.snapshot(photofilename); //still finding difficulty properly saving , so pls bare with me on this part
 
     if (!filmExists) {

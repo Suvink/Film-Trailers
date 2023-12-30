@@ -1,0 +1,77 @@
+import { createRef, useState } from "react";
+import Axios from "axios";
+import ViewExisting from "./ViewExisting";
+
+const Cart = () => {
+  const [loading, setLoading] = useState(false);
+  const [cart, setCart] = useState({
+    item: "",
+    description: "",
+    quantity: 5,
+  });
+  const [status, setStatus] = useState("");
+
+  const handleChange = (e) => {
+    setCart({ ...cart, [e.target.name]: e.target.value });
+  };
+  const nameRef = createRef();
+  const descRef = createRef();
+  const quanRef = createRef();
+
+  const AddItem = async (e) => {
+    e.preventDefault();
+    try {
+      setStatus("");
+      setLoading(true);
+      const response = await Axios.post("http://localhost:8000/cart", cart);
+
+      if (response.status === 201) {
+        setStatus(`Item ${cart.item} created`);
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus(err.response.data.Alert);
+    } finally {
+      setLoading(false);
+
+      nameRef.current.value = "";
+      descRef.current.value = "";
+      quanRef.current.value = 5;
+    }
+  };
+
+  return (
+    <div>
+      <h1>Cart</h1>
+      <form onSubmit={AddItem}>
+        <input
+          name="item"
+          onChange={handleChange}
+          placeholder="Enter Item Name..."
+          value={cart.item}
+          ref={nameRef}
+        />
+        <input
+          name="description"
+          onChange={handleChange}
+          placeholder="Enter Item Description..."
+          value={cart.description}
+          ref={descRef}
+        />
+        <input
+          name="quantity"
+          onChange={handleChange}
+          placeholder="Enter Quantity..."
+          type="number"
+          defaultValue={cart.quantity}
+          ref={quanRef}
+        />
+        <button type="submit">{loading ? "Loading..." : "Add to Cart"}</button>
+      </form>
+      <p>{status}</p>
+      <ViewExisting />
+    </div>
+  );
+};
+
+export default Cart;

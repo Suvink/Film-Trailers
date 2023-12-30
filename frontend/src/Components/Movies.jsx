@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import Navbar from "../Misc/Navbar";
@@ -7,6 +7,7 @@ const API_URL = "http://localhost:8000";
 
 function Movies() {
   const [data, setData] = useState([]);
+  const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
@@ -60,7 +61,9 @@ function Movies() {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.get(`${API_URL}/home/${searchTerm}`);
+      const response = await Axios.get(`${API_URL}/home/${searchTerm}`, {
+        body: JSON.stringify({ limit: limit }),
+      });
       setData(response.data);
     } catch (error) {
       console.error("Error searching:", error);
@@ -80,7 +83,7 @@ function Movies() {
           onSubmit={(e) => {
             handleSearch(e, searchTerm);
           }}
-          className="mt-4"
+          className="mt-4 flex items-center"
         >
           <input
             type="text"
@@ -89,61 +92,77 @@ function Movies() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="p-2 border border-gray-300 mr-2"
           />
+          <label>
+            <h1>Enter limit</h1>
+            <input
+              type="number"
+              onChange={(e) => {
+                setLimit(e.target.value);
+              }}
+              value={limit}
+            ></input>
+          </label>
+
           <button
             type="submit"
             disabled={loading}
-            className="p-2 bg-blue-500 text-white"
+            className="p-2 border border-gray-300 mr-2"
           >
             Search
           </button>
         </form>
         {loading ? (
-          <h1>Loading...</h1>
+          <h1 className="mt-4 text-xl font-bold">Loading...</h1>
         ) : data && data.length ? (
           data.map((x) => (
-            <div key={x._id}>
-              <h1 style={{ fontSize: 32 }}>{x.title}</h1>
+            <div key={x._id} className="mt-4 border p-4 rounded-md shadow-md">
+              <h1 className="text-2xl font-bold">{x.title}</h1>
               <img
                 src={x.alternate || "No image available"}
                 alt={`Image of ${x.title}`}
+                className="mt-2 rounded-md"
               />
-              <br></br>
-              <label>
-                <h1>Description</h1>
+              <div className="mt-2">
+                <h1 className="text-lg font-bold">Description</h1>
                 <p>{x?.description ? x.description : "No description found"}</p>
-              </label>
-              <br></br>
-              <a href={x.trailer}>Trailer for {x.title}</a>
-              <label>
+              </div>
+              <div className="mt-2">
+                <a href={x.trailer} className="text-blue-500 hover:underline">
+                  Trailer for {x.title}
+                </a>
+              </div>
+              <div className="mt-2 flex items-center">
                 <button
                   onClick={() => {
                     deleteFilm(x._id);
                   }}
+                  className="mr-2 p-2 bg-red-500 text-white hover:bg-red-700"
                 >
                   Delete Film
                 </button>
-
                 <input
                   onChange={(e) => {
                     setModifiedTitle(e.target.value);
                   }}
                   placeholder="Update Film Title"
+                  className="p-2 border border-gray-300 mr-2"
                 />
                 <button
                   onClick={() => {
                     editTitle(x._id, modifiedTitle);
                   }}
+                  className="p-2 bg-green-500 text-white hover:bg-green-700"
                 >
                   Make changes
                 </button>
-              </label>
+              </div>
             </div>
           ))
         ) : (
-          <p>No Trailers Added</p>
+          <p className="mt-4 text-lg font-bold">No Trailers Added</p>
         )}
 
-        <Link to="/addfilm" className="text-blue-500 hover:underline">
+        <Link to="/addfilm" className="mt-4 text-blue-500 hover:underline">
           Add Film
         </Link>
       </div>
