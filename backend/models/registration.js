@@ -6,14 +6,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       min: 5,
-      default: "",
+      default: "guest",
     },
     password: {
       type: String,
       required: true,
       trim: true,
       min: 5,
-      default: "",
+      default: "guest123",
     },
     mail: {
       type: String,

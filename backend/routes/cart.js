@@ -3,7 +3,6 @@ const router = express.Router();
 const itemModel = require("../models/items");
 const UserOrder = require("../models/userOrder");
 const nodemailer = require("nodemailer");
-const { join } = require("path");
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {

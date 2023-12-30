@@ -17,6 +17,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
+// const { Server } = require("socket.io");
+// const io = new Server(app, { cors: { origin: "*" } });
 
 app.use(express.json());
 app.use(cors()); //allow access from anywhere for now lol
@@ -26,7 +28,7 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 
 app.use(helmet());
 app.use(compression({}));
-app.use("/public/images", express.static(__dirname + "/public/images/"));
+app.use(express.static(join(__dirname, "public")));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -36,6 +38,19 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
+
+// io.on("connection", (socket) => { //im trying to implement a chat type feature
+//   console.log(socket.id);
+
+//   socket.on("receive message", (data) => {
+//     socket.emit("chat message", data);
+//   });
+// });
+
+app.use("*", (req, res) => {
+  //last resort incase user is trying to access some unknown path
+  res.sendFile(join(__dirname, "./views/404", "404.html"));
+});
 
 async function start() {
   try {

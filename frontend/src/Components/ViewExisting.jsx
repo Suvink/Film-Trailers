@@ -3,12 +3,25 @@ import { useEffect, useState } from "react";
 
 const ViewExisting = () => {
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
   async function getItems() {
     try {
       const r = await Axios.get("http://localhost:8000/cart");
       setData(r.data);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  async function Order(id) {
+    try {
+      const r = await Axios.post(`http://localhost:8000/cart/${id}`);
+      if (r.status === 201) {
+        setStatus("Order Placed");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus(err.response.data.Alert);
     }
   }
 
@@ -30,6 +43,14 @@ const ViewExisting = () => {
               src={x.itemPhoto}
               height={"fit-content"}
             ></img>
+            <button
+              onClick={() => {
+                Order(x._id);
+              }}
+            >
+              Order
+            </button>
+            <p>{status}</p>
           </div>
         ))}
       </p>

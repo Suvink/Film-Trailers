@@ -1,9 +1,22 @@
+import Axios from "axios";
 import { useState } from "react";
 
 const ForgotPass = () => {
-  const [data, setData] = useState({ email: "", username: "" });
+  const [data, setData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
 
-  const ForgotPass = () => {};
+  const ForgotPass = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const r = await Axios.post("http://localhost:8000/register/forgot", data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -16,8 +29,15 @@ const ForgotPass = () => {
           }}
           placeholder="Enter email"
         ></input>
+        <input
+          onChange={(e) => {
+            setData({ ...data, password: e.target.value });
+          }}
+          placeholder="Enter Updated Password"
+        ></input>
         <button>Forgot Password</button>
       </form>
+      <p>{status}</p>
     </div>
   );
 };

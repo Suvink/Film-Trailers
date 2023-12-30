@@ -54,4 +54,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { CreateUser, GetUsers, deleteUser };
+const updatePassword = async (req, res) => {
+  const { email, password } = req?.body;
+  if (!email || !password)
+    return res.status(400).json({ Alert: "No email/password found" });
+
+  try {
+    const findIfExists = await userSchema.findOne({ mail: email });
+
+    if (!findIfExists) {
+      return res.status(403).json({ Alert: "Email doesn't exist" });
+    } else {
+      // Update the password for the found user
+      await userSchema.updateOne({ mail: email }, { password: password });
+
+      return res
+        .status(200)
+        .json({ Alert: `Updated ${email} password to ${password}` });
+    }
+  } catch (error) {
+    return res.status(500).json({ Alert: "Internal Server Error" });
+  }
+};
+
+module.exports = { CreateUser, GetUsers, deleteUser, updatePassword };
