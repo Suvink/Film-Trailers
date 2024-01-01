@@ -28,6 +28,10 @@ const Cart = () => {
 
       if (response.status === 201) {
         setStatus(`Item ${cart.item} created`);
+        const timeTillReload = setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        timeTillReload();
       } else if (response.status === 400) {
         setStatus("Bad Request");
       }

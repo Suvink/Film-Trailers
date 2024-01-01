@@ -13,7 +13,7 @@ async function CreateUser(req, res) {
     if (!username || !password || !mail)
       return res
         .status(400)
-        .json({ Alert: "No Username/password or mail provided" });
+        .json({ Alert: "No Username/password/mail provided" });
 
     const findUser = await userSchema.findOne({
       $or: [{ username: username }, { mail: mail }],

@@ -19,7 +19,8 @@ export default function App() {
   const UserData = createContext();
   return (
     <BrowserRouter>
-      <UserData.Provider>
+      <UserData.Provider value={(logged, setLogged)}>
+        {/**To pass across all components and their children */}
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies setLogged={setLogged} />} />

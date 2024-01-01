@@ -10,7 +10,12 @@ const ForgotPass = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const r = await Axios.post("http://localhost:8000/register/forgot", data);
+      const r = await Axios.post("http://localhost:8000/register/forgot", {
+        data,
+      });
+      if (r.status === 200) {
+        setStatus("Ok");
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -21,7 +26,7 @@ const ForgotPass = () => {
   return (
     <div>
       <h1>Forgot Password</h1>
-      <p>This is a test page if user forgets password</p>
+      <p>Fill this 👇🏻 to update your password!</p>
       <form onSubmit={ForgotPass}>
         <input
           onChange={(e) => {
@@ -35,7 +40,9 @@ const ForgotPass = () => {
           }}
           placeholder="Enter Updated Password"
         ></input>
-        <button>Forgot Password</button>
+        <button disabled={loading}>
+          {loading ? "Loading..." : "Forgot Password"}
+        </button>
       </form>
       <p>{status}</p>
     </div>
