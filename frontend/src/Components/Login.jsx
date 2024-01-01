@@ -2,12 +2,12 @@ import { useState, useRef } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-const Login = ({ setLogged }) => {
+const Login = (props) => {
+  const { setLogged, status, setStatus } = props;
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
 
   const endPoint = "http://localhost:8000";
 

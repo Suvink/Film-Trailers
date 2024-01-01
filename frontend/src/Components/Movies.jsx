@@ -60,9 +60,7 @@ function Movies(props) {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.get(`${API_URL}/home/${searchTerm}`, {
-        body: JSON.stringify({ limit: limit }),
-      });
+      const response = await Axios.get(`${API_URL}/home/${searchTerm}`, limit);
       setData(response.data);
     } catch (error) {
       console.error("Error searching:", error);
@@ -88,7 +86,7 @@ function Movies(props) {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className=" mx-auto" style={{ margin: "2%" }}>
         <h1>
           Welcome {logged ? logged : "Guest"}, {time}
         </h1>

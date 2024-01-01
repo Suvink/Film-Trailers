@@ -38,29 +38,37 @@ async function SearchByTitle(req, res) {
 }
 
 async function DeleteItems(req, res) {
-  const { id } = req?.params;
-  const convertedString = String(id);
-  const filmExists = await mediaModel.findOne({ _id: convertedString });
-  if (!filmExists) {
-    return res.status(404).json({ Alert: "Film doesn't exist" });
-  } else {
-    await mediaModel.deleteOne({ _id: id });
-    return res.status(200).json({ Alert: "Film Deleted" });
+  try {
+    const { id } = req?.params;
+    const convertedString = String(id);
+    const filmExists = await mediaModel.findOne({ _id: convertedString });
+    if (!filmExists) {
+      return res.status(404).json({ Alert: "Film doesn't exist" });
+    } else {
+      await mediaModel.deleteOne({ _id: id });
+      return res.status(200).json({ Alert: "Film Deleted" });
+    }
+  } catch (err) {
+    console.error(err);
   }
 }
 
 async function UpdateFilm(req, res) {
-  const { id } = req?.params;
-  const { title } = req.body;
-  const convertedString = String(id);
-  const filmExists = await mediaModel.findOne({
-    _id: new ObjectId(convertedString),
-  });
-  if (!filmExists) {
-    return res.status(404).json({ Alert: "Film doesn't exist" });
-  } else {
-    await mediaModel.findOneAndUpdate({ title: title });
-    return res.status(200).json({ Alert: "Film Updated" });
+  try {
+    const { id } = req?.params;
+    const { title } = req.body;
+    const convertedString = String(id);
+    const filmExists = await mediaModel.findOne({
+      _id: new ObjectId(convertedString),
+    });
+    if (!filmExists) {
+      return res.status(404).json({ Alert: "Film doesn't exist" });
+    } else {
+      await mediaModel.findOneAndUpdate({ title: title });
+      return res.status(200).json({ Alert: "Film Updated" });
+    }
+  } catch (err) {
+    console.error(err);
   }
 }
 

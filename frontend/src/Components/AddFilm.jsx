@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-const AddFilm = () => {
+const AddFilm = (props) => {
+  const { status, setStatus } = props;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     title: "",
@@ -12,7 +13,7 @@ const AddFilm = () => {
     alternate: "",
     rating: "",
   });
-  const [status, setStatus] = useState("");
+
   const titlefield = useRef();
   const descfield = useRef();
   const trailerfield = useRef();

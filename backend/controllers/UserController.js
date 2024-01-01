@@ -2,8 +2,12 @@ const userSchema = require("../models/registration");
 const HashPassword = require("../security/hashing");
 
 async function GetUsers(req, res) {
-  const users = await userSchema.find();
-  res.json(users);
+  try {
+    const users = await userSchema.find().sort("createdAt");
+    res.json(users).status(200);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function CreateUser(req, res) {
@@ -42,15 +46,19 @@ async function CreateUser(req, res) {
 }
 
 const deleteUser = async (req, res) => {
-  const { id } = req?.params;
-  const convertedID = String(id);
-  if (!id) return res.status(400).json({ Alert: "No ID Found" });
+  try {
+    const { id } = req?.params;
+    const convertedID = String(id);
+    if (!id) return res.status(400).json({ Alert: "No ID Found" });
 
-  const findId = await userSchema.deleteOne({ _id: convertedID });
-  if (!findId) {
-    return res.status(400).json({ Alert: "ID not found" });
-  } else {
-    return res.status(200).json({ Alert: `${id} Deleted` });
+    const findId = await userSchema.deleteOne({ _id: convertedID });
+    if (!findId) {
+      return res.status(400).json({ Alert: "ID not found" });
+    } else {
+      return res.status(200).json({ Alert: `${id} Deleted` });
+    }
+  } catch (err) {
+    console.error(err);
   }
 };
 

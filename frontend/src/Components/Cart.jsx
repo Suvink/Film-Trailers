@@ -2,7 +2,8 @@ import { createRef, useState } from "react";
 import Axios from "axios";
 import ViewExisting from "./ViewExisting";
 
-const Cart = () => {
+const Cart = (props) => {
+  const { status, setStatus } = props;
   const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState({
     item: "",
@@ -10,7 +11,6 @@ const Cart = () => {
     quantity: 5,
     image: "",
   });
-  const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
     setCart({ ...cart, [e.target.name]: e.target.value });

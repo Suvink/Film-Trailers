@@ -15,15 +15,16 @@ import Navbar from "./Misc/Navbar";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
+  const [status, setStatus] = useState("");
 
   const UserData = createContext();
   return (
     <BrowserRouter>
-      <UserData.Provider value={(logged, setLogged)}>
+      <UserData.Provider value={(logged, setLogged, status, setStatus)}>
         {/**To pass across all components and their children */}
         <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Movies setLogged={setLogged} />} />
+          <Route path="/" element={<Movies />} />
           <Route
             path="/home"
             element={
@@ -32,13 +33,30 @@ export default function App() {
           ></Route>
           <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>
-          <Route path="/addfilm" element={<AddFilm />} />
-          <Route path="/login" element={<Login></Login>}></Route>
+          <Route
+            path="/addfilm"
+            element={<AddFilm status={status} setStatus={setStatus} />}
+          />
+          <Route
+            path="/login"
+            element={
+              <Login
+                setLogged={setLogged}
+                status={status}
+                setStatus={setStatus}
+              ></Login>
+            }
+          ></Route>
           <Route
             path="/manageuser"
             element={<DisplayUsers></DisplayUsers>}
           ></Route>
-          <Route path="/forgotpass" element={<ForgotPass></ForgotPass>}></Route>
+          <Route
+            path="/forgotpass"
+            element={
+              <ForgotPass setLogged={setLogged} logged={logged}></ForgotPass>
+            }
+          ></Route>
           <Route path="/chats" element={<ChatPage></ChatPage>}></Route>
           <Route path="/updateshop" element={<Cart></Cart>}></Route>
           <Route

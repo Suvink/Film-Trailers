@@ -4,7 +4,7 @@ require("dotenv").config();
 
 async function GetFilms(req, res) {
   try {
-    const videos = await mediaModel.find();
+    const videos = await mediaModel.find().sort("createdAt");
     res.json(videos);
   } catch (error) {
     console.error(error);
