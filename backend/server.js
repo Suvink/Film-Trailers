@@ -39,7 +39,8 @@ app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
 
-// io.on("connection", (socket) => { //im trying to implement a chat type feature
+// io.on("connection", (socket, err) => {
+//   if (err) throw err;
 //   console.log(socket.id);
 
 //   socket.on("receive message", (data) => {

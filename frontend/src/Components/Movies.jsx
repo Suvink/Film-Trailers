@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
+import DisplayFilm from "./DisplayFilm";
 
 const API_URL = "http://localhost:8000";
 
@@ -69,6 +71,8 @@ function Movies(props) {
     }
   };
 
+  async function setID() {}
+
   const [time, setTime] = useState("");
   const today = new Date();
   const hours = today.getHours();
@@ -127,21 +131,15 @@ function Movies(props) {
         ) : data && data.length ? (
           data.map((x) => (
             <div key={x._id} className="mt-4 border p-4 rounded-md shadow-md">
-              <h1 className="text-2xl font-bold">{x.title}</h1>
-              <img
-                src={x.alternate || "No image available"}
-                alt={`Image of ${x.title}`}
-                className="mt-2 rounded-md"
-              />
-              <div className="mt-2">
-                <h1 className="text-lg font-bold">Description</h1>
-                <p>{x.description ? x.description : "No description found"}</p>
-              </div>
-              <div className="mt-2">
-                <a href={x.trailer} className="text-blue-500 hover:underline">
-                  Trailer for {x.title}
-                </a>
-              </div>
+              <DisplayFilm x={x}></DisplayFilm>
+              <Link
+                to={`/data/${x._id}`}
+                onClick={() => {
+                  setID(x._id);
+                }}
+              >
+                Click to View
+              </Link>
               <div className="mt-2 flex items-center" style={{ padding: "2%" }}>
                 <button
                   onClick={() => {

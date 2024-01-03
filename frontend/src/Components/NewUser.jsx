@@ -39,7 +39,7 @@ const NewUser = ({ setLogged }) => {
       }
     } catch (err) {
       console.error(err);
-      setStatus("Error occurred");
+      setStatus(err.response.data.Alert);
     } finally {
       setLoading(false);
     }

@@ -30,6 +30,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
+        photo,
         alternate,
       });
 

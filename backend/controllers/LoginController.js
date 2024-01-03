@@ -29,23 +29,15 @@ const Login = async (req, res) => {
           },
           process.env.ACCESS_TOKEN,
           {
-            expiresIn: "30s",
+            expiresIn: "15m",
           }
         );
 
-        const refreshToken = jwt.sign(
-          {
-            username: userValidity.username,
-          },
-          process.env.REFRESH_TOKEN,
-          { expiresIn: "1d" }
-        );
-
-        res.cookie("jwt", refreshToken, {
+        res.cookie("jwt", accessToken, {
           httpOnly: true,
           sameSite: "None",
           secure: true,
-          maxAge: 24 * 60 * 60 * 1000,
+          maxAge: 24 * 60 * 60 * 1000, //24 hours
         });
 
         return res.status(200).json({

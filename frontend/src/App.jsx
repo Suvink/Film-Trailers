@@ -11,25 +11,27 @@ import "./App.css";
 import ChatPage from "./Components/Socket";
 import Cart from "./Components/Cart";
 import ViewExisting from "./Components/ViewExisting";
+import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
+
   const [status, setStatus] = useState("");
 
   const UserData = createContext();
   return (
     <BrowserRouter>
       <UserData.Provider value={(logged, setLogged, status, setStatus)}>
-        {/**To pass across all components and their children */}
         <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Movies />} />
+          <Route path="/" element={<Movies logged={logged} />} />
+          <Route path="/:id" element={<IDWisePage></IDWisePage>}></Route>
           <Route
             path="/home"
             element={
               <LandingPage setLogged={setLogged} logged={logged}></LandingPage>
-            } //not registered by default
+            }
           ></Route>
           <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
           <Route path="/newuser" element={<NewUser></NewUser>}></Route>

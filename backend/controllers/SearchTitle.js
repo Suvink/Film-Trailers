@@ -2,7 +2,6 @@ const multer = require("multer");
 const mediaModel = require("../models/media");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
-const pipeline = [];
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -12,22 +11,20 @@ async function SearchByTitle(req, res) {
   // const limiter = { $limit: limit };
   // pipeline.push(limiter);
 
-  const { title } = req?.params;
-  if (!title) return res.status(400).json({ Alert: "Title not found" });
+  const { title, id } = req?.params;
+  if (!title || !id) return res.status(400).json({ Alert: "Title not found" });
 
   try {
     const titleToString = String(title);
-    const matches = await mediaModel.aggregate([
-      {
-        $match: {
-          title: { $regex: titleToString, $options: "i" },
-        },
-      },
-      ...pipeline,
-    ]);
+    const titleToID = String(id);
+    const matches = await mediaModel.find({
+      $or: { title: titleToString, _id: titleToID },
+    });
 
-    if (matches.length === 0) {
-      return res.status(404).json({ Alert: "No matching films found" });
+    if (matches.length || !id === 0) {
+      return res
+        .status(404)
+        .json({ Alert: "No matching films found or ID matches" });
     } else {
       res.status(200).json(matches);
     }
