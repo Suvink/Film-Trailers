@@ -13,6 +13,7 @@ import Cart from "./Components/Cart";
 import ViewExisting from "./Components/ViewExisting";
 import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
+import PageNotFound from "./Components/404";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <UserData.Provider
-        value={(logged, setLogged, status, setStatus, loading, setLoading)}
+        value={{ logged, setLogged, status, setStatus, loading, setLoading }}
       >
         <Navbar></Navbar>
         <Routes>
@@ -124,6 +125,8 @@ export default function App() {
               ></ViewExisting>
             }
           ></Route>
+          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>{" "}
+          {/**last resort, if all other routes are not met */}
         </Routes>
       </UserData.Provider>
     </BrowserRouter>
