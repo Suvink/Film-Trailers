@@ -16,28 +16,60 @@ import Navbar from "./Misc/Navbar";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
 
   const UserData = createContext();
   return (
     <BrowserRouter>
-      <UserData.Provider value={(logged, setLogged, status, setStatus)}>
+      <UserData.Provider
+        value={(logged, setLogged, status, setStatus, loading, setLoading)}
+      >
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies logged={logged} />} />
-          <Route path="/:id" element={<IDWisePage></IDWisePage>}></Route>
+          <Route
+            path="/data/:id"
+            element={
+              <IDWisePage status={status} setStatus={setStatus}></IDWisePage>
+            }
+          ></Route>
           <Route
             path="/home"
             element={
               <LandingPage setLogged={setLogged} logged={logged}></LandingPage>
             }
           ></Route>
-          <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
-          <Route path="/newuser" element={<NewUser></NewUser>}></Route>
+          <Route
+            path="/manage"
+            element={
+              <DisplayUsers
+                loading={loading}
+                setLoading={setLoading}
+              ></DisplayUsers>
+            }
+          ></Route>
+          <Route
+            path="/newuser"
+            element={
+              <NewUser
+                status={status}
+                setStatus={setStatus}
+                loading={loading}
+                setLoading={setLoading}
+              ></NewUser>
+            }
+          ></Route>
           <Route
             path="/addfilm"
-            element={<AddFilm status={status} setStatus={setStatus} />}
+            element={
+              <AddFilm
+                status={status}
+                setStatus={setStatus}
+                loading={loading}
+                setLoading={setLoading}
+              />
+            }
           />
           <Route
             path="/login"
@@ -51,19 +83,46 @@ export default function App() {
           ></Route>
           <Route
             path="/manageuser"
-            element={<DisplayUsers></DisplayUsers>}
+            element={
+              <DisplayUsers
+                loading={loading}
+                setLoading={setLoading}
+              ></DisplayUsers>
+            }
           ></Route>
           <Route
             path="/forgotpass"
             element={
-              <ForgotPass setLogged={setLogged} logged={logged}></ForgotPass>
+              <ForgotPass
+                setLogged={setLogged}
+                logged={logged}
+                status={status}
+                setStatus={setStatus}
+              ></ForgotPass>
             }
           ></Route>
           <Route path="/chats" element={<ChatPage></ChatPage>}></Route>
-          <Route path="/updateshop" element={<Cart></Cart>}></Route>
+          <Route
+            path="/updateshop"
+            element={
+              <Cart
+                status={status}
+                setStatus={setStatus}
+                loading={loading}
+                setLoading={setLoading}
+              ></Cart>
+            }
+          ></Route>
           <Route
             path="/viewShop"
-            element={<ViewExisting></ViewExisting>}
+            element={
+              <ViewExisting
+                loading={loading}
+                setLoading={setLoading}
+                status={status}
+                setStatus={setStatus}
+              ></ViewExisting>
+            }
           ></Route>
         </Routes>
       </UserData.Provider>

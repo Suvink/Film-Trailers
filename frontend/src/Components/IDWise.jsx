@@ -2,23 +2,28 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 
-const IDWisePage = () => {
+const IDWisePage = (props) => {
+  const { status, setStatus } = props;
   const API_URL = "http://localhost:8000";
   const [idData, setIDData] = useState([]);
+
   const { id } = useParams();
 
   const handleSearchID = async (e) => {
     e.preventDefault();
     try {
-      const response = await Axios.get(`${API_URL}/home/${id}`);
+      const response = await Axios.post(`${API_URL}/home/${id}`);
       setIDData(response.data);
+      setStatus(response.data.Alert);
     } catch (error) {
       console.error("Error searching:", error);
+      setStatus(error.response.data.Alert);
     }
   };
 
   useEffect(() => {
     handleSearchID();
+    console.log(id);
   }, []);
 
   return (
@@ -38,6 +43,7 @@ const IDWisePage = () => {
       ) : (
         <p>Invalid Film</p>
       )}
+      <p>{status}</p>
     </div>
   );
 };

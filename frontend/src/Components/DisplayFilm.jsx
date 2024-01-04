@@ -16,6 +16,9 @@ const DisplayFilm = ({ x }) => {
           Trailer for {x.title}
         </a>
       </div>
+      <div>
+        <p>{x.rating}</p>
+      </div>
     </div>
   );
 };

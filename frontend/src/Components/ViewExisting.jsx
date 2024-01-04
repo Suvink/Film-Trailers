@@ -1,10 +1,10 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
 
-const ViewExisting = () => {
+const ViewExisting = (props) => {
+  const { loading, setLoading, status, setStatus } = props;
   const [data, setData] = useState([]);
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+
   async function getItems() {
     try {
       setLoading(true);

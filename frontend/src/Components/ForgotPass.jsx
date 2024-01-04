@@ -2,7 +2,7 @@ import Axios from "axios";
 import { useState } from "react";
 
 const ForgotPass = (props) => {
-  const { status, setStatus } = props;
+  const { status, setStatus, logged, setLogged } = props;
   const [data, setData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 

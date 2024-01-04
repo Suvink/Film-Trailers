@@ -22,15 +22,35 @@ async function CreateFilms(req, res) {
 
     const filmExists = await mediaModel.findOne({ title: title });
 
-    // let photofilename = photo;
-    // const x = new photos.snapshot(photofilename); //still finding difficulty properly saving , so pls bare with me on this part
+    let photofilename = "";
+
+    if (req.file) {
+      upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(500).json(err);
+        } else if (err) {
+          return res.status(500).json(err);
+        }
+      });
+
+      photofilename = `${Date.now()}.jpeg`;
+
+      const filePath = join(__dirname, "public/filmimages", photofilename);
+
+      console.log("File Path:", filePath);
+
+      await sharp(req.file.buffer)
+        .resize(480, 360)
+        .jpeg({ mozjpeg: true, quality: 60 })
+        .toFile(filePath);
+    }
 
     if (!filmExists) {
       const newMovie = new mediaModel({
         title,
         description,
         trailer,
-        photo,
+        photo: photofilename,
         alternate,
       });
 

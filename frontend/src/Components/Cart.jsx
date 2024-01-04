@@ -3,8 +3,8 @@ import Axios from "axios";
 import ViewExisting from "./ViewExisting";
 
 const Cart = (props) => {
-  const { status, setStatus } = props;
-  const [loading, setLoading] = useState(false);
+  const { status, setStatus, loading, setLoading } = props;
+
   const [cart, setCart] = useState({
     item: "",
     description: "",

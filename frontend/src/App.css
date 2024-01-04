@@ -1,6 +1,7 @@
 * {
   font-family: "Poppins", Courier, monospace;
   text-decoration: none;
+  list-style-type: none;
 }
 .container {
   max-width: 800px;

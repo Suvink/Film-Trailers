@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 
-const DisplayUsers = () => {
+const DisplayUsers = (props) => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = props;
 
   async function UserData() {
     try {

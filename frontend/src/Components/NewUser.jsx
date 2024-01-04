@@ -12,8 +12,7 @@ const NewUser = ({ setLogged }) => {
   const usernamefield = useRef();
   const passwordfield = useRef();
 
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { status, setStatus, loading, setLoading } = props;
 
   const createUser = async (e) => {
     e.preventDefault();

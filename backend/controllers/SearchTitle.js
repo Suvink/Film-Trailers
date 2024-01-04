@@ -6,6 +6,19 @@ require("dotenv").config();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+async function IDWise(req, res) {
+  const { id } = req?.params;
+  if (!id) return res.status(400).json({ Alert: "No ID Provided" });
+
+  const foundByID = await mediaModel.findOne({ _id: String(id) });
+
+  if (!foundByID) {
+    return res.status(404).json({ Alert: "Film doesn't exist" });
+  } else {
+    return res.status(200).json(foundByID);
+  }
+}
+
 async function SearchByTitle(req, res) {
   // const { limit } = req?.body;
   // const limiter = { $limit: limit };
@@ -69,4 +82,4 @@ async function UpdateFilm(req, res) {
   }
 }
 
-module.exports = { SearchByTitle, DeleteItems, UpdateFilm };
+module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise };

@@ -3,8 +3,8 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const AddFilm = (props) => {
-  const { status, setStatus } = props;
-  const [loading, setLoading] = useState(false);
+  const { status, setStatus, loading, setLoading } = props;
+
   const [data, setData] = useState({
     title: "",
     description: "",
@@ -20,13 +20,13 @@ const AddFilm = (props) => {
   const imagefield = useRef();
   const ratingfield = useRef();
 
-  const handleChange = (e, field) => {
-    setData((prevData) => ({ ...prevData, [field]: e.target.value }));
+  const handleChange = (e) => {
+    setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));
   };
 
-  // const handleFileChange = (e) => {
-  //   setData({ ...data, photo: e.target.files[0] });
-  // };
+  const handleFileChange = (e) => {
+    setData({ ...data, photo: e.target.files[0] });
+  };
 
   async function createFilm(e) {
     e.preventDefault();
@@ -64,29 +64,35 @@ const AddFilm = (props) => {
       <form onSubmit={createFilm}>
         <input
           ref={titlefield}
-          onChange={(e) => handleChange(e, "title")}
+          onChange={(e) => handleChange(e)}
           placeholder="Enter Title"
+          name="title"
         />
         <input
           ref={descfield}
-          onChange={(e) => handleChange(e, "description")}
+          onChange={(e) => handleChange(e)}
+          name="description"
           placeholder="Write your description"
-        />
-        <input
-          ref={trailerfield}
-          onChange={(e) => handleChange(e, "trailer")}
-          placeholder="Enter trailer"
-        />
-        <input
-          ref={imagefield}
-          onChange={(e) => handleChange(e, "alternate")}
-          placeholder="Enter alternate image by address"
         />
 
         <input
+          ref={trailerfield}
+          onChange={(e) => handleChange(e)}
+          placeholder="Enter trailer"
+          name="trailer"
+        />
+        <input
+          ref={imagefield}
+          onChange={(e) => handleChange(e)}
+          placeholder="Enter alternate image by address"
+          name="alternate"
+        />
+        <input onChange={handleFileChange} type="file"></input>
+        <input
           ref={ratingfield}
-          onChange={(e) => handleChange(e, "rating")}
+          onChange={(e) => handleChange(e)}
           type="number"
+          name="rating"
           placeholder="Enter rating"
         />
         <button type="submit" disabled={loading}>
