@@ -4,6 +4,7 @@ const DisplayFilm = ({ x }) => {
       <h1 className="text-2xl font-bold">{x.title}</h1>
       <img
         src={x.alternate || "No image available"}
+        height={500}
         alt={`Image of ${x.title}`}
         className="mt-2 rounded-md"
       />

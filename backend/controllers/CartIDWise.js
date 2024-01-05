@@ -13,7 +13,7 @@ const nodemailer = require("nodemailer");
 //   },
 // });
 async function PlaceOrder(req, res) {
-  const { id } = req?.params;
+  const id = req?.params?.id;
   const { item, quantity, mail } = req?.body;
   if (!id) return res.status(400).json({ Alert: "No ID received" });
 

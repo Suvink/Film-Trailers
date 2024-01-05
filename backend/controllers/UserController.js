@@ -47,7 +47,7 @@ async function CreateUser(req, res) {
 
 const deleteUser = async (req, res) => {
   try {
-    const { id } = req?.params;
+    const id = req?.params?.id;
     const convertedID = String(id);
     if (!id) return res.status(400).json({ Alert: "No ID Found" });
 

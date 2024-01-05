@@ -21,6 +21,7 @@ const Cart = (props) => {
 
   const AddItem = async (e) => {
     e.preventDefault();
+
     try {
       setStatus("");
       setLoading(true);

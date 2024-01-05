@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
-const NewUser = ({ setLogged }) => {
+const NewUser = (props) => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -12,7 +12,7 @@ const NewUser = ({ setLogged }) => {
   const usernamefield = useRef();
   const passwordfield = useRef();
 
-  const { status, setStatus, loading, setLoading } = props;
+  const { status, setStatus, loading, setLoading, setLogged } = props;
 
   const createUser = async (e) => {
     e.preventDefault();
@@ -44,6 +44,10 @@ const NewUser = ({ setLogged }) => {
     }
   };
 
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <h1>Welcome to VeloFlix</h1>
@@ -52,29 +56,28 @@ const NewUser = ({ setLogged }) => {
         <input
           type="text"
           ref={usernamefield}
-          onChange={(e) => setData({ ...data, username: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter Username"
-          value={data.username}
+          name="username"
         />
         <input
           ref={passwordfield}
           type="password"
-          onChange={(e) => setData({ ...data, password: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter password"
-          value={data.password}
+          name="password"
         />
         <input
           type="email"
-          onChange={(e) => setData({ ...data, mail: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter mail"
-          value={data.mail}
+          name="mail"
         />
         <input
-          onChange={(e) => {
-            setData({ ...data, photo: e.target.value });
-          }}
+          onChange={handleChange}
           value={data.photo}
           placeholder="Enter Photo"
+          name="photo"
         ></input>
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>

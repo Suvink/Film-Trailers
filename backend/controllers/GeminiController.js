@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(geminiKey);
 
 async function GeminiCall(req, res) {
   try {
-    const { data } = req?.body;
+    const data = req?.body?.body;
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = `What do you think about ${data}?`;

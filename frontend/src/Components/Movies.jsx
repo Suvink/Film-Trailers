@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
@@ -6,12 +7,14 @@ import DisplayFilm from "./DisplayFilm";
 const API_URL = "http://localhost:8000";
 
 function Movies(props) {
-  const { logged } = props;
+  const { logged, setID } = props;
+
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
+  const [time, setTime] = useState("");
 
   async function fetchFromBack() {
     try {
@@ -24,6 +27,7 @@ function Movies(props) {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchFromBack();
   }, []);
@@ -71,11 +75,9 @@ function Movies(props) {
     }
   };
 
-  async function setID() {}
-
-  const [time, setTime] = useState("");
   const today = new Date();
   const hours = today.getHours();
+
   useEffect(() => {
     if (hours < 12) {
       setTime("Good Morning!");
@@ -90,7 +92,7 @@ function Movies(props) {
 
   return (
     <>
-      <div className=" mx-auto" style={{ margin: "2%" }}>
+      <div className="mx-auto" style={{ margin: "2%" }}>
         <h1>
           Welcome {logged ? logged : "Guest"}, {time}
         </h1>
@@ -131,10 +133,14 @@ function Movies(props) {
         ) : data && data.length ? (
           data.map((x) => (
             <div key={x._id} className="mt-4 border p-4 rounded-md shadow-md">
-              <DisplayFilm x={x}></DisplayFilm>
+              <DisplayFilm x={x} />
+
               <Link
                 to={`/data/${x._id}`}
                 onClick={() => {
+                  if (setID !== "") {
+                    setID("");
+                  }
                   setID(x._id);
                 }}
               >
@@ -168,7 +174,9 @@ function Movies(props) {
             </div>
           ))
         ) : (
-          <p className="mt-4 text-lg font-bold">No Trailers Added</p>
+          <p className="mt-4 text-lg font-bold">
+            {searchTerm ? "No results found" : "No Trailers Added"}
+          </p>
         )}
       </div>
     </>

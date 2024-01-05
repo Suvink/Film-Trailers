@@ -14,11 +14,11 @@ const AddFilm = (props) => {
     rating: "",
   });
 
-  const titlefield = useRef();
-  const descfield = useRef();
-  const trailerfield = useRef();
-  const imagefield = useRef();
-  const ratingfield = useRef();
+  const titleField = useRef();
+  const descField = useRef();
+  const trailerField = useRef();
+  const imageField = useRef();
+  const ratingField = useRef();
 
   const handleChange = (e) => {
     setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));
@@ -33,26 +33,24 @@ const AddFilm = (props) => {
     try {
       setLoading(true);
 
-      const { title, description, trailer, photo, alternate } = data; //destructured from data object
+      const { title, description, trailer, photo, alternate, rating } = data;
 
       const response = await Axios.post("http://localhost:8000/home", {
-        title: title,
-        description: description,
-        trailer: trailer,
-        alternate: alternate,
+        data,
       });
 
       if (response.status === 201) {
-        setStatus(`${data.title} Added`);
+        setStatus(`${title} Added`);
       }
     } catch (err) {
       console.error(err);
       setStatus("Error adding film");
     } finally {
-      titlefield.current.value = "";
-      descfield.current.value = "";
-      trailerfield.current.value = "";
-      imagefield.current.value = "";
+      titleField.current.value = "";
+      descField.current.value = "";
+      trailerField.current.value = "";
+      imageField.current.value = "";
+      ratingField.current.value = "";
       setLoading(false);
     }
   }
@@ -63,33 +61,32 @@ const AddFilm = (props) => {
 
       <form onSubmit={createFilm}>
         <input
-          ref={titlefield}
+          ref={titleField}
           onChange={(e) => handleChange(e)}
           placeholder="Enter Title"
           name="title"
         />
         <input
-          ref={descfield}
+          ref={descField}
           onChange={(e) => handleChange(e)}
           name="description"
           placeholder="Write your description"
         />
-
         <input
-          ref={trailerfield}
+          ref={trailerField}
           onChange={(e) => handleChange(e)}
           placeholder="Enter trailer"
           name="trailer"
         />
         <input
-          ref={imagefield}
+          ref={imageField}
           onChange={(e) => handleChange(e)}
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        <input onChange={handleFileChange} type="file"></input>
+        <input onChange={handleFileChange} type="file" />
         <input
-          ref={ratingfield}
+          ref={ratingField}
           onChange={(e) => handleChange(e)}
           type="number"
           name="rating"

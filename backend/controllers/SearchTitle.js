@@ -7,7 +7,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 async function IDWise(req, res) {
-  const { id } = req?.params;
+  const id = req?.params?.id;
   if (!id) return res.status(400).json({ Alert: "No ID Provided" });
 
   const foundByID = await mediaModel.findOne({ _id: String(id) });
@@ -30,9 +30,13 @@ async function SearchByTitle(req, res) {
   try {
     const titleToString = String(title);
     const titleToID = String(id);
-    const matches = await mediaModel.find({
-      $or: { title: titleToString, _id: titleToID },
-    });
+    const matches = await mediaModel.aggregate([
+      {
+        $match: {
+          $or: [{ title: titleToString }, { _id: titleToID }],
+        },
+      },
+    ]);
 
     if (matches.length || !id === 0) {
       return res
@@ -49,7 +53,7 @@ async function SearchByTitle(req, res) {
 
 async function DeleteItems(req, res) {
   try {
-    const { id } = req?.params;
+    const id = req?.params?.id;
     const convertedString = String(id);
     const filmExists = await mediaModel.findOne({ _id: convertedString });
     if (!filmExists) {
@@ -65,11 +69,11 @@ async function DeleteItems(req, res) {
 
 async function UpdateFilm(req, res) {
   try {
-    const { id } = req?.params;
-    const { title } = req.body;
-    const convertedString = String(id);
+    const id = req?.params?.id;
+    const title = req.body?.title;
+
     const filmExists = await mediaModel.findOne({
-      _id: new ObjectId(convertedString),
+      _id: new ObjectId(String(id)),
     });
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });

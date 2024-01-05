@@ -19,6 +19,7 @@ export default function App() {
   const [logged, setLogged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [id, setID] = useState("");
 
   const UserData = createContext();
   return (
@@ -28,11 +29,15 @@ export default function App() {
       >
         <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Movies logged={logged} />} />
+          <Route path="/" element={<Movies logged={logged} setID={setID} />} />
           <Route
             path="/data/:id"
             element={
-              <IDWisePage status={status} setStatus={setStatus}></IDWisePage>
+              <IDWisePage
+                status={status}
+                setStatus={setStatus}
+                id={id}
+              ></IDWisePage>
             }
           ></Route>
           <Route
@@ -54,6 +59,8 @@ export default function App() {
             path="/newuser"
             element={
               <NewUser
+                logged={logged}
+                setLogged={setLogged}
                 status={status}
                 setStatus={setStatus}
                 loading={loading}
@@ -125,7 +132,7 @@ export default function App() {
               ></ViewExisting>
             }
           ></Route>
-          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>{" "}
+          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
           {/**last resort, if all other routes are not met */}
         </Routes>
       </UserData.Provider>

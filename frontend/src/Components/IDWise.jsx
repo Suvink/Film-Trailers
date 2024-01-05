@@ -3,14 +3,11 @@ import { useParams } from "react-router-dom";
 import Axios from "axios";
 
 const IDWisePage = (props) => {
-  const { status, setStatus } = props;
+  const { status, setStatus, id } = props;
   const API_URL = "http://localhost:8000";
   const [idData, setIDData] = useState([]);
 
-  const { id } = useParams();
-
-  const handleSearchID = async (e) => {
-    e.preventDefault();
+  const handleSearchID = async () => {
     try {
       const response = await Axios.post(`${API_URL}/home/${id}`);
       setIDData(response.data);
