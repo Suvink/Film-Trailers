@@ -22,6 +22,11 @@ const Login = async (req, res) => {
       if (!passwordValidity) {
         return res.status(403).json({ Alert: `Incorrect password` });
       } else {
+        const tempoUser = res.cookie(
+          "userData",
+          { username, password },
+          { maxAge: "15000" }
+        ); //15 mins
         const accessToken = jwt.sign(
           {
             username: userValidity.username,
@@ -41,7 +46,7 @@ const Login = async (req, res) => {
         });
 
         return res.status(200).json({
-          Alert: `${username} logged in and your access Token is ${accessToken}`,
+          Alert: `${username} logged in and your access Token is ${accessToken} testing ${tempoUser}`,
         });
       }
     }

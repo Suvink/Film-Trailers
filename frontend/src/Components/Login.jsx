@@ -42,6 +42,10 @@ const Login = (props) => {
     }
   }
 
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <h1>Login Page</h1>
@@ -49,16 +53,16 @@ const Login = (props) => {
         <input
           type="text"
           ref={usernamefield}
-          onChange={(e) => setData({ ...data, username: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter Username"
-          value={data.username}
+          name="username"
         />
         <input
           ref={passwordfield}
           type="password"
-          onChange={(e) => setData({ ...data, password: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter password"
-          value={data.password}
+          name="password"
         />
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Login"}

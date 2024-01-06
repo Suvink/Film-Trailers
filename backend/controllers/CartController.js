@@ -1,6 +1,6 @@
 const itemModel = require("../models/items");
 
-async function GetCart(res) {
+async function GetCart(req, res) {
   try {
     const data = await itemModel.find().sort("createdAt");
     res.status(200).json(data);

@@ -14,6 +14,7 @@ import ViewExisting from "./Components/ViewExisting";
 import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
+// import TestPage from "../../Test";
 
 export default function App() {
   const [logged, setLogged] = useState(false);
@@ -132,6 +133,7 @@ export default function App() {
               ></ViewExisting>
             }
           ></Route>
+
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
           {/**last resort, if all other routes are not met */}
         </Routes>

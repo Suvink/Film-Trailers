@@ -17,10 +17,13 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
+const test = require("./routes/test");
+
 // const { Server } = require("socket.io");
 // const io = new Server(app, { cors: { origin: "*" } });
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors()); //allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
@@ -38,6 +41,7 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
+app.use("/test", test);
 
 // io.on("connection", (socket, err) => {
 //   if (err) throw err;

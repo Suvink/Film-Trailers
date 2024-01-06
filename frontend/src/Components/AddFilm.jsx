@@ -63,32 +63,32 @@ const AddFilm = (props) => {
       <form onSubmit={createFilm}>
         <input
           ref={titleField}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           placeholder="Enter Title"
           name="title"
         />
         <input
           ref={descField}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           name="description"
           placeholder="Write your description"
         />
         <input
           ref={trailerField}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           placeholder="Enter trailer"
           name="trailer"
         />
         <input
           ref={imageField}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           placeholder="Enter alternate image by address"
           name="alternate"
         />
         <input onChange={handleFileChange} type="file" />
         <input
           ref={ratingField}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           type="number"
           name="rating"
           placeholder="Enter rating"

@@ -6,6 +6,7 @@ const ViewExisting = (props) => {
   const { loading, setLoading, status, setStatus } = props;
   const [data, setData] = useState([]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getItems() {
     try {
       setLoading(true);
@@ -20,6 +21,7 @@ const ViewExisting = (props) => {
 
   async function Order(id) {
     try {
+      setLoading(true);
       const r = await Axios.post(`http://localhost:8000/cart/${id}`);
       if (r.status === 201) {
         setStatus("Order Placed");
@@ -27,12 +29,14 @@ const ViewExisting = (props) => {
     } catch (err) {
       console.error(err);
       setStatus(err.response.data.Alert);
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
     getItems();
-  }, []);
+  }, [getItems]);
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Manage Shop</h1>

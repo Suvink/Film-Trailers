@@ -76,7 +76,6 @@ const NewUser = (props) => {
         />
         <input
           onChange={handleChange}
-          value={data.photo}
           placeholder="Enter Photo"
           name="photo"
         ></input>

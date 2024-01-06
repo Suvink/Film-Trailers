@@ -24,21 +24,23 @@ const ForgotPass = (props) => {
     }
   };
 
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <h1>Forgot Password</h1>
       <p>Fill this 👇🏻 to update your password!</p>
       <form onSubmit={ForgotPass}>
         <input
-          onChange={(e) => {
-            setData({ ...data, email: e.target.value });
-          }}
+          onChange={handleChange}
+          name="mail"
           placeholder="Enter email"
         ></input>
         <input
-          onChange={(e) => {
-            setData({ ...data, password: e.target.value });
-          }}
+          onChange={handleChange}
+          name="password"
           placeholder="Enter Updated Password"
         ></input>
         <button disabled={loading}>
