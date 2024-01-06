@@ -3,6 +3,7 @@ import Axios from "axios";
 import ViewExisting from "./ViewExisting";
 
 const Cart = (props) => {
+  // eslint-disable-next-line react/prop-types
   const { status, setStatus, loading, setLoading } = props;
 
   const [cart, setCart] = useState({

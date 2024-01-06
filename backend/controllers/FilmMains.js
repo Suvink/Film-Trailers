@@ -1,5 +1,5 @@
-// const photos = require("../security/photos");
 const mediaModel = require("../models/media");
+const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 async function GetFilms(req, res) {
@@ -12,6 +12,12 @@ async function GetFilms(req, res) {
   }
 }
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_CLOUD_KEY,
+  api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
+});
+
 async function CreateFilms(req, res) {
   try {
     const { title, description, trailer, photo, alternate } = req?.body;
@@ -20,37 +26,28 @@ async function CreateFilms(req, res) {
       return res.status(400).json({ alert: "Title or trailer missing" });
     }
 
-    const filmExists = await mediaModel.findOne({ title: title });
-
-    let photofilename = "";
-
-    if (req.file) {
-      upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-          return res.status(500).json(err);
-        } else if (err) {
-          return res.status(500).json(err);
-        }
-      });
-
-      photofilename = `${Date.now()}.jpeg`;
-
-      const filePath = join(__dirname, "public/filmimages", photofilename);
-
-      console.log("File Path:", filePath);
-
-      await sharp(req.file.buffer)
-        .resize(480, 360)
-        .jpeg({ mozjpeg: true, quality: 60 })
-        .toFile(filePath);
+    if (!photo) {
+      return res.status(400).json({ alert: "Photo missing" });
     }
+
+    let photoURL;
+    try {
+      photoURL = await cloudinary.uploader.upload(photo);
+    } catch (uploadError) {
+      console.error(uploadError);
+      return res
+        .status(500)
+        .json({ error: "Error uploading photo to Cloudinary" });
+    }
+
+    const filmExists = await mediaModel.findOne({ title: title });
 
     if (!filmExists) {
       const newMovie = new mediaModel({
         title,
         description,
         trailer,
-        photo: photofilename,
+        photo: photoURL.url,
         alternate,
       });
 

@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const Login = (props) => {
+  // eslint-disable-next-line react/prop-types
   const { setLogged, status, setStatus } = props;
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();

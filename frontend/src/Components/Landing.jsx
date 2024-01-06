@@ -2,6 +2,7 @@ import NewUser from "./NewUser";
 import Login from "./Login";
 
 const LandingPage = (props) => {
+  // eslint-disable-next-line react/prop-types
   const { logged, setLogged } = props;
   if (!logged) {
     return <NewUser setLogged={setLogged}></NewUser>;

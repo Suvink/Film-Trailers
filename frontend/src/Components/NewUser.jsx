@@ -12,6 +12,7 @@ const NewUser = (props) => {
   const usernamefield = useRef();
   const passwordfield = useRef();
 
+  // eslint-disable-next-line react/prop-types
   const { status, setStatus, loading, setLoading, setLogged } = props;
 
   const createUser = async (e) => {

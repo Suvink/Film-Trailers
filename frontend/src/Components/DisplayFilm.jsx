@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 const DisplayFilm = ({ x }) => {
   return (
     <div key={x.id}>

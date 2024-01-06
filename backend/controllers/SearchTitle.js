@@ -1,10 +1,6 @@
-const multer = require("multer");
 const mediaModel = require("../models/media");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 async function IDWise(req, res) {
   const id = req?.params?.id;
@@ -22,7 +18,6 @@ async function IDWise(req, res) {
 async function SearchByTitle(req, res) {
   // const { limit } = req?.body;
   // const limiter = { $limit: limit };
-  // pipeline.push(limiter);
 
   const { title, id } = req?.params;
   if (!title || !id) return res.status(400).json({ Alert: "Title not found" });

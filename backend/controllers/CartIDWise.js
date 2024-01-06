@@ -1,7 +1,7 @@
 const UserOrder = require("../models/userOrder");
 const itemModel = require("../models/items");
-const nodemailer = require("nodemailer");
-// let transporter = nodemailer.createTransport({
+// const nodemailer = require("nodemailer");
+// let transporter = nodemailer.createTransport({ //haven't setup nodemailer yet, it's like an auto mailing system
 //   service: "gmail",
 //   auth: {
 //     type: "OAuth2",

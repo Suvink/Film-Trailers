@@ -7,6 +7,7 @@ import DisplayFilm from "./DisplayFilm";
 const API_URL = "http://localhost:8000";
 
 function Movies(props) {
+  // eslint-disable-next-line react/prop-types
   const { logged, setID } = props;
 
   const [data, setData] = useState([]);

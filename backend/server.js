@@ -55,9 +55,16 @@ app.use("*", (req, res) => {
 
 async function start() {
   try {
-    await mongoose.connect(cluster, { useNewUrlParser: true });
+    await mongoose.connect(cluster, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-    app.listen(port, console.log(`Servers up on port ${port}`));
+    console.log("MongoDB connected successfully");
+
+    app.listen(port, () => {
+      console.log(`Server is up on port ${port}`);
+    });
   } catch (err) {
     console.error(err);
   }

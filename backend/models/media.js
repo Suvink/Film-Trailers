@@ -7,7 +7,6 @@ const movieSchema = new mongoose.Schema(
       trim: true,
       min: 5,
       max: 20,
-      default: "",
     },
     description: {
       type: String,
@@ -15,22 +14,18 @@ const movieSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       min: 5,
-      default: "",
     },
     trailer: {
       type: String,
       required: true,
       trim: true,
       min: 5,
-      default: "",
     },
     photo: {
       type: String,
-      default: "",
     },
     alternate: {
       type: String,
-      default: "",
     },
   },
   { timestamps: true }

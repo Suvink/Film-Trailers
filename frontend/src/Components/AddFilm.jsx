@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const AddFilm = (props) => {
+  // eslint-disable-next-line react/prop-types
   const { status, setStatus, loading, setLoading } = props;
 
   const [data, setData] = useState({
@@ -33,7 +34,7 @@ const AddFilm = (props) => {
     try {
       setLoading(true);
 
-      const { title, description, trailer, photo, alternate, rating } = data;
+      const { title } = data;
 
       const response = await Axios.post("http://localhost:8000/home", {
         data,

@@ -3,6 +3,7 @@ import Axios from "axios";
 
 const DisplayUsers = (props) => {
   const [users, setUsers] = useState([]);
+  // eslint-disable-next-line react/prop-types
   const { loading, setLoading } = props;
 
   async function UserData() {
