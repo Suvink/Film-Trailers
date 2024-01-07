@@ -7,7 +7,6 @@ const ViewExisting = () => {
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData } = datax;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getItems() {
     try {
       setLoading(true);
@@ -37,7 +36,7 @@ const ViewExisting = () => {
 
   useEffect(() => {
     getItems();
-  }, [getItems]);
+  }, []);
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Manage Shop</h1>
