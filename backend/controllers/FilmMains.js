@@ -20,7 +20,7 @@ cloudinary.config({
 
 async function CreateFilms(req, res) {
   try {
-    const { title, description, trailer, photo, alternate } = req?.body;
+    const { title, description, trailer, photo, alternate, rating } = req?.body;
 
     if (!title || !trailer) {
       return res.status(400).json({ alert: "Title or trailer missing" });
@@ -45,6 +45,7 @@ async function CreateFilms(req, res) {
         trailer,
         photo: photoURL.url,
         alternate,
+        rating,
       });
 
       await newMovie.save();

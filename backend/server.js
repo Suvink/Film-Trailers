@@ -18,6 +18,7 @@ const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
 const test = require("./routes/test");
+const firebaseHome = require("./routes/fireMain");
 
 // const { Server } = require("socket.io");
 // const io = new Server(app, { cors: { origin: "*" } });
@@ -41,6 +42,7 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
+app.use("/fire", firebaseHome);
 // app.use("/test", test);
 
 // io.on("connection", (socket, err) => {

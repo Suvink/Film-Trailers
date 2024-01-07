@@ -27,6 +27,7 @@ const movieSchema = new mongoose.Schema(
     alternate: {
       type: String,
     },
+    rating: { type: String },
   },
   { timestamps: true }
 );

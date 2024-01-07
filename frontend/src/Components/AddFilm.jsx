@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
@@ -17,18 +17,23 @@ const AddFilm = () => {
     rating: "",
   });
 
-  const titleField = useRef();
-  const descField = useRef();
-  const trailerField = useRef();
-  const imageField = useRef();
-  const ratingField = useRef();
-
   const handleChange = (e) => {
     setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));
   };
 
   const handleFileChange = (e) => {
     setData({ ...data, photo: e.target.files[0] });
+  };
+
+  const resetForm = () => {
+    setData({
+      title: "",
+      description: "",
+      trailer: "",
+      photo: null,
+      alternate: "",
+      rating: "",
+    });
   };
 
   async function createFilm(e) {
@@ -38,22 +43,21 @@ const AddFilm = () => {
 
       const { title } = data;
 
-      const response = await Axios.post("http://localhost:8000/home", {
-        data,
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value);
       });
+
+      const response = await Axios.post("http://localhost:8000/home", formData);
 
       if (response.status === 201) {
         setStatus(`${title} Added`);
+        resetForm();
       }
     } catch (err) {
       console.error(err);
       setStatus("Error adding film");
     } finally {
-      titleField.current.value = "";
-      descField.current.value = "";
-      trailerField.current.value = "";
-      imageField.current.value = "";
-      ratingField.current.value = "";
       setLoading(false);
     }
   }
@@ -64,32 +68,32 @@ const AddFilm = () => {
 
       <form onSubmit={createFilm}>
         <input
-          ref={titleField}
+          value={data.title}
           onChange={handleChange}
           placeholder="Enter Title"
           name="title"
         />
         <input
-          ref={descField}
+          value={data.description}
           onChange={handleChange}
           name="description"
           placeholder="Write your description"
         />
         <input
-          ref={trailerField}
+          value={data.trailer}
           onChange={handleChange}
           placeholder="Enter trailer"
           name="trailer"
         />
         <input
-          ref={imageField}
+          value={data.alternate}
           onChange={handleChange}
           placeholder="Enter alternate image by address"
           name="alternate"
         />
         <input onChange={handleFileChange} type="file" />
         <input
-          ref={ratingField}
+          value={data.rating}
           onChange={handleChange}
           type="number"
           name="rating"

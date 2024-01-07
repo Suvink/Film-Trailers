@@ -6,7 +6,7 @@ import Axios from "axios";
 const NewUser = () => {
   const datax = useContext(UserData);
 
-  const { setStatus, setLoading, setLogged, newUser, data, loading, status } =
+  const { setStatus, setLoading, setLogged, setData, data, loading, status } =
     datax;
 
   const createUser = async (e) => {
@@ -40,7 +40,7 @@ const NewUser = () => {
   };
 
   const handleChange = (e) => {
-    newUser({ ...data, [e.target.name]: e.target.value });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   return (

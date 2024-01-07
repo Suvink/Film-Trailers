@@ -2,6 +2,7 @@ import Axios from "axios";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { UserData } from "../App";
+import ItemsPage from "./Items";
 const ViewExisting = () => {
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData } = datax;
@@ -48,15 +49,7 @@ const ViewExisting = () => {
             {data && data.length ? (
               data.map((x) => (
                 <div key={x._id} style={{ margin: "2%", padding: "2%" }}>
-                  <h1>{x.itemName}</h1>
-                  <p>{x.itemDescription}</p>
-                  <h3>{x.itemQuantity} Items available in stock</h3>
-                  <h4>{x.itemAvailability ? "In Stock" : "Out of stock"}</h4>
-                  <img
-                    alt={`Image of ${x.itemName}`}
-                    src={x.itemPhoto}
-                    height={"fit-content"}
-                  ></img>
+                  <ItemsPage data={x}></ItemsPage>
                   <button
                     onClick={() => {
                       Order(x._id);
