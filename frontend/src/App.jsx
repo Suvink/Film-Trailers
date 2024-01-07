@@ -16,7 +16,7 @@ import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
 // import TestPage from "../../Test";
 
-const UserData = createContext();
+export const UserData = createContext();
 
 export default function App() {
   const [data, setData] = useState({
@@ -42,30 +42,25 @@ export default function App() {
           setLoading,
           setID,
           id,
+          data,
+          setData,
         }}
       >
         <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Movies />} />
-          <Route path="/:id" element={<IDWisePage></IDWisePage>}></Route>
-          <Route path="/home" element={<LandingPage></LandingPage>}></Route>
-          <Route path="/manage" element={<DisplayUsers></DisplayUsers>}></Route>
-          <Route path="/newuser" element={<NewUser></NewUser>}></Route>
+          <Route path="/newuser" element={<NewUser />} />
           <Route path="/addfilm" element={<AddFilm />} />
-          <Route path="/login" element={<Login></Login>}></Route>
-          <Route
-            path="/manageuser"
-            element={<DisplayUsers></DisplayUsers>}
-          ></Route>
-          <Route path="/forgotpass" element={<ForgotPass></ForgotPass>}></Route>
-          <Route path="/chats" element={<ChatPage></ChatPage>}></Route>
-          <Route path="/updateshop" element={<Cart></Cart>}></Route>
-          <Route
-            path="/viewShop"
-            element={<ViewExisting></ViewExisting>}
-          ></Route>
-          {/**last resort, if all other routes are not met */}
-          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
+          <Route path="/manage" element={<DisplayUsers />} />
+          <Route path="/manageuser" element={<DisplayUsers />} />
+          <Route path="/:id" element={<IDWisePage />} />
+          <Route path="/home" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgotpass" element={<ForgotPass />} />
+          <Route path="/chats" element={<ChatPage />} />
+          <Route path="/updateshop" element={<Cart />} />
+          <Route path="/viewShop" element={<ViewExisting />} />
+          <Route path="/" element={<Movies />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </UserData.Provider>
     </BrowserRouter>
