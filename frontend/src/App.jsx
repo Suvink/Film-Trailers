@@ -48,18 +48,18 @@ export default function App() {
       >
         <Navbar></Navbar>
         <Routes>
+          <Route path="/" element={<Movies />} />
+          <Route path="/socket" element={<ChatPage />}></Route>
+          <Route path="/home" element={<LandingPage />} />
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
-          <Route path="/manageuser" element={<DisplayUsers />} />
           <Route path="/:id" element={<IDWisePage />} />
-          <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
           <Route path="/chats" element={<ChatPage />} />
           <Route path="/updateshop" element={<Cart />} />
           <Route path="/viewShop" element={<ViewExisting />} />
-          <Route path="/" element={<Movies />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </UserData.Provider>

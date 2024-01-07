@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useContext } from "react";
 import { UserData } from "../App";
 import ItemsPage from "./Items";
@@ -7,7 +7,7 @@ const ViewExisting = () => {
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData } = datax;
 
-  async function getItems() {
+  const getItems = useCallback(async () => {
     try {
       setLoading(true);
       const r = await Axios.get("http://localhost:8000/cart");
@@ -17,7 +17,7 @@ const ViewExisting = () => {
     } finally {
       setLoading(false);
     }
-  }
+  }, [setLoading, setData]);
 
   async function Order(id) {
     try {

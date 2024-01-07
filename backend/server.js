@@ -17,8 +17,9 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
-const test = require("./routes/test");
-const firebaseHome = require("./routes/fireMain");
+// const { Socket } = require("socket.io");
+// const test = require("./routes/test");
+// const firebaseHome = require("./routes/fireMain");
 
 // const { Server } = require("socket.io");
 // const io = new Server(app, { cors: { origin: "*" } });
@@ -42,17 +43,8 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
-app.use("/fire", firebaseHome);
+// app.use("/fire", firebaseHome);
 // app.use("/test", test);
-
-// io.on("connection", (socket, err) => {
-//   if (err) throw err;
-//   console.log(socket.id);
-
-//   socket.on("receive message", (data) => {
-//     socket.emit("chat message", data);
-//   });
-// });
 
 app.use("*", (req, res) => {
   //last resort incase user is trying to access some unknown path
