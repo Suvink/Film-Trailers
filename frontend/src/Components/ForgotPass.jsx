@@ -1,11 +1,12 @@
 import Axios from "axios";
-import { useState } from "react";
+import { useContext } from "react";
+import { UserData } from "../App";
 
-const ForgotPass = (props) => {
+const ForgotPass = () => {
+  const datax = useContext(UserData);
   // eslint-disable-next-line react/prop-types
-  const { status, setStatus } = props;
-  const [data, setData] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
+  const { status, setStatus, loading, setLoading, data, setData } = datax;
+  // eslint-disable-next-line react/prop-types
 
   const ForgotPass = async (e) => {
     e.preventDefault();

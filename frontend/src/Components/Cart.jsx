@@ -1,10 +1,13 @@
-import { createRef, useState } from "react";
+import { createRef, useState, useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 import ViewExisting from "./ViewExisting";
 
-const Cart = (props) => {
+const Cart = () => {
   // eslint-disable-next-line react/prop-types
-  const { status, setStatus, loading, setLoading } = props;
+  const datax = useContext(UserData);
+  // eslint-disable-next-line react/prop-types
+  const { status, setStatus, loading, setLoading } = datax;
 
   const [cart, setCart] = useState({
     item: "",

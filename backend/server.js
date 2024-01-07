@@ -41,7 +41,7 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
-app.use("/test", test);
+// app.use("/test", test);
 
 // io.on("connection", (socket, err) => {
 //   if (err) throw err;

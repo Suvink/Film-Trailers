@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-const AddFilm = (props) => {
+const AddFilm = () => {
+  const datax = useContext(UserData);
   // eslint-disable-next-line react/prop-types
-  const { status, setStatus, loading, setLoading } = props;
+  const { status, setStatus, loading, setLoading } = datax;
 
   const [data, setData] = useState({
     title: "",

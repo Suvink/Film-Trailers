@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Axios from "axios";
+import { UserData } from "../App";
 
-const DisplayUsers = (props) => {
+const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
   // eslint-disable-next-line react/prop-types
-  const { loading, setLoading } = props;
+  const datax = useContext(UserData);
+  // eslint-disable-next-line react/prop-types
+  const { loading, setLoading } = datax;
 
-  async function UserData() {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function UserDatax() {
     try {
       setLoading(true);
       const r = await Axios.get("http://localhost:8000/register");
@@ -18,8 +22,8 @@ const DisplayUsers = (props) => {
     }
   }
   useEffect(() => {
-    UserData();
-  }, []);
+    UserDatax();
+  }, [UserDatax]);
 
   async function DeleteUser(id) {
     try {

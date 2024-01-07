@@ -26,10 +26,6 @@ async function CreateFilms(req, res) {
       return res.status(400).json({ alert: "Title or trailer missing" });
     }
 
-    if (!photo) {
-      return res.status(400).json({ alert: "Photo missing" });
-    }
-
     let photoURL;
     try {
       photoURL = await cloudinary.uploader.upload(photo);

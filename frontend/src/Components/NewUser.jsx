@@ -1,24 +1,17 @@
-import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
 const NewUser = (props) => {
-  const [data, setData] = useState({
-    username: "",
-    password: "",
-    mail: "",
-    photo: "",
-  });
-  const usernamefield = useRef();
-  const passwordfield = useRef();
-
   // eslint-disable-next-line react/prop-types
-  const { status, setStatus, loading, setLoading, setLogged } = props;
+  const { setStatus, setLoading, setLogged, newUser, data, loading, status } =
+    props;
 
   const createUser = async (e) => {
     e.preventDefault();
 
+    // eslint-disable-next-line react/prop-types
     const { username, password, mail, photo } = data;
+
     try {
       setLoading(true);
       const response = await Axios.post("http://localhost:8000/register", {
@@ -26,14 +19,13 @@ const NewUser = (props) => {
         password,
         mail,
         photo,
-      }); //destructured for more control over data object
+      });
 
       if (response.status === 201) {
-        setStatus(`${data.username} Created`);
+        setStatus(`${username} Created`);
         setLogged(true);
-        window.location.href = "http://localhost:5173/";
       } else if (response.status === 409) {
-        setStatus(`${data.username} or ${data.mail} already exist`);
+        setStatus(`${username} or ${mail} already exist`);
       } else if (response.status === 400) {
         setStatus("User already exists");
       }
@@ -46,7 +38,7 @@ const NewUser = (props) => {
   };
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    newUser({ ...data, [e.target.name]: e.target.value });
   };
 
   return (
@@ -56,13 +48,11 @@ const NewUser = (props) => {
       <form onSubmit={createUser}>
         <input
           type="text"
-          ref={usernamefield}
           onChange={handleChange}
           placeholder="Enter Username"
           name="username"
         />
         <input
-          ref={passwordfield}
           type="password"
           onChange={handleChange}
           placeholder="Enter password"
@@ -74,18 +64,14 @@ const NewUser = (props) => {
           placeholder="Enter mail"
           name="mail"
         />
-        <input
-          onChange={handleChange}
-          placeholder="Enter Photo"
-          name="photo"
-        ></input>
+        <input onChange={handleChange} placeholder="Enter Photo" name="photo" />
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Create User"}
         </button>
       </form>
       <p>
-        Already an user ? <Link to="/login">Click Here to Login!</Link>
+        Already a user? <Link to="/login">Click Here to Login!</Link>
       </p>
     </>
   );
