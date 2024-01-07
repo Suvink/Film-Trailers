@@ -4,12 +4,9 @@ import { UserData } from "../App";
 
 const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
-  // eslint-disable-next-line react/prop-types
   const datax = useContext(UserData);
-  // eslint-disable-next-line react/prop-types
   const { loading, setLoading } = datax;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function UserDatax() {
     try {
       setLoading(true);
@@ -23,7 +20,7 @@ const DisplayUsers = () => {
   }
   useEffect(() => {
     UserDatax();
-  }, [UserDatax]);
+  }, []);
 
   async function DeleteUser(id) {
     try {

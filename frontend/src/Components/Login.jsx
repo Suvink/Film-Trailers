@@ -1,14 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-const Login = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { setLogged, status, setStatus } = props;
+const Login = () => {
+  const { setLogged, status, setStatus, loading, setLoading } =
+    useContext(UserData);
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
-  const [loading, setLoading] = useState(false);
 
   const endPoint = "http://localhost:8000";
 

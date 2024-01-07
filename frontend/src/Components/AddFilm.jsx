@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const AddFilm = () => {
   const datax = useContext(UserData);
-  // eslint-disable-next-line react/prop-types
+
   const { status, setStatus, loading, setLoading } = datax;
 
   const [data, setData] = useState({

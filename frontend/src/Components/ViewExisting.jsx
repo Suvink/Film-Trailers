@@ -1,10 +1,10 @@
 import Axios from "axios";
-import { useEffect, useState } from "react";
-
-const ViewExisting = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { loading, setLoading, status, setStatus } = props;
-  const [data, setData] = useState([]);
+import { useEffect } from "react";
+import { useContext } from "react";
+import { UserData } from "../App";
+const ViewExisting = () => {
+  const datax = useContext(UserData);
+  const { status, setStatus, loading, setLoading, data, setData } = datax;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getItems() {

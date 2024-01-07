@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 
-const IDWisePage = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { status, setStatus, id } = props;
+const IDWisePage = () => {
+  const datax = useContext(UserData);
+  const { status, setStatus, id } = datax;
   const API_URL = "http://localhost:8000";
   const [idData, setIDData] = useState([]);
 

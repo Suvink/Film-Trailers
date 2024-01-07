@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 
-const NewUser = (props) => {
-  // eslint-disable-next-line react/prop-types
+const NewUser = () => {
+  const datax = useContext(UserData);
+
   const { setStatus, setLoading, setLogged, newUser, data, loading, status } =
-    props;
+    datax;
 
   const createUser = async (e) => {
     e.preventDefault();
 
-    // eslint-disable-next-line react/prop-types
     const { username, password, mail, photo } = data;
 
     try {

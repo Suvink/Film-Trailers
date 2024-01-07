@@ -4,9 +4,7 @@ import { UserData } from "../App";
 
 const ForgotPass = () => {
   const datax = useContext(UserData);
-  // eslint-disable-next-line react/prop-types
   const { status, setStatus, loading, setLoading, data, setData } = datax;
-  // eslint-disable-next-line react/prop-types
 
   const ForgotPass = async (e) => {
     e.preventDefault();

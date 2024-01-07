@@ -4,9 +4,7 @@ import Axios from "axios";
 import ViewExisting from "./ViewExisting";
 
 const Cart = () => {
-  // eslint-disable-next-line react/prop-types
   const datax = useContext(UserData);
-  // eslint-disable-next-line react/prop-types
   const { status, setStatus, loading, setLoading } = datax;
 
   const [cart, setCart] = useState({

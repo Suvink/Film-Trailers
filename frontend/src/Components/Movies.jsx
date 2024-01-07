@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
+import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 
 const API_URL = "http://localhost:8000";
 
-function Movies(props) {
-  // eslint-disable-next-line react/prop-types
-  const { logged, setID } = props;
+function Movies() {
+  const datax = useContext(UserData);
+  const { logged, setID } = datax;
 
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
