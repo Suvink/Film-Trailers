@@ -1,8 +1,11 @@
 const bcrypt = require("bcrypt");
 
 class HashPasswordx {
-  hashPass = (password) => {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  constructor(password) {
+    this.password = password;
+  }
+  hashPass = () => {
+    return bcrypt.hashSync(this.password, bcrypt.genSaltSync(Math.random()));
   };
 
   compare(userValidity, password) {

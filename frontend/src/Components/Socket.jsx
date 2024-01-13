@@ -7,7 +7,7 @@ const ChatPage = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io("http://localhost:4000");
 
     // Event listeners
     socket.on("connect", () => {
@@ -18,11 +18,10 @@ const ChatPage = () => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    // Cleanup the socket connection on component unmount
     return () => {
       socket.disconnect();
     };
-  }, []); // Empty dependency array to run the effect only once on mount
+  }, []);
 
   const handleSendMessage = () => {
     if (inputMessage.trim() !== "") {
@@ -31,13 +30,10 @@ const ChatPage = () => {
         text: inputMessage,
       };
 
-      // Emit a message event to the server
       Socket.emit("sendMessage", messageObject);
 
-      // Update the local state with the sent message
       setMessages((prevMessages) => [...prevMessages, messageObject]);
 
-      // Clear the input field
       setInputMessage("");
     }
   };

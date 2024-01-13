@@ -2,6 +2,7 @@ const userSchema = require("../models/registration");
 const HashPassword = require("../security/hashing");
 
 async function GetUsers(req, res) {
+  console.log(req.session);
   try {
     const users = await userSchema.find().sort("createdAt");
     res.json(users).status(200);
@@ -24,8 +25,8 @@ async function CreateUser(req, res) {
     });
 
     if (!findUser) {
-      const x = new HashPassword();
-      const encrypted = x.hashPass(password);
+      const x = new HashPassword(password);
+      const encrypted = x.hashPass();
       const newUser = new userSchema({
         username,
         password: encrypted,

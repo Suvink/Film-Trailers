@@ -1,14 +1,15 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
-const Login = () => {
-  const { setLogged, status, setStatus, loading, setLoading } =
-    useContext(UserData);
+const Login = (props) => {
+  const { status, setStatus, loading, setLoading } = useContext(UserData);
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
+  const { logged, setLogged } = props;
 
   const endPoint = "http://localhost:8000";
 
@@ -25,11 +26,11 @@ const Login = () => {
         username,
         password,
       }).then(() => {
-        if (r.status === 200) {
+        if (r.response.status === 200) {
           setStatus("User Logged in");
           setLogged(true);
           window.location.href = "http://localhost:5173/";
-        } else if (r.status === 404) {
+        } else if (r.response.status === 404) {
           setStatus("Username or Password invalid, please try again!");
         } else {
           setStatus("Something went wrong!");

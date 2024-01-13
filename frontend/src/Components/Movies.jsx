@@ -3,6 +3,7 @@ import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
+import BotPage from "./Bot";
 
 const API_URL = "http://localhost:8000";
 
@@ -16,6 +17,7 @@ function Movies() {
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
+  const [showBot, setShowBot] = useState(false);
 
   async function fetchFromBack() {
     try {
@@ -91,40 +93,51 @@ function Movies() {
     }
   }, [hours]);
 
+  const viewBot = () => {
+    setShowBot(true);
+  };
+
+  const closeBot = () => {
+    setShowBot(false);
+  };
+
   return (
     <>
-      <div className="mx-auto" style={{ margin: "2%" }}>
-        <h1>
+      <button onClick={viewBot}>View Bot</button>
+      {showBot && <BotPage onClose={closeBot} />}
+
+      <div className="mx-auto max-w-2xl p-4">
+        <h1 className="text-3xl font-bold mb-4">
           Welcome {logged ? logged : "Guest"}, {time}
         </h1>
         <form
           onSubmit={(e) => {
             handleSearch(e, searchTerm);
           }}
-          className="mt-4 flex items-center"
+          className="flex items-center space-x-2 mb-4"
         >
           <input
             type="text"
             placeholder="Search Here..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border border-gray-300 mr-2"
+            className="p-2 border border-gray-300 flex-1"
           />
-          <label>
-            <h1>Enter limit</h1>
+          <label className="flex items-center">
+            <span className="mr-2">Enter limit</span>
             <input
               type="number"
               onChange={(e) => {
                 setLimit(e.target.value);
               }}
               value={limit}
-            ></input>
+              className="p-2 border border-gray-300"
+            />
           </label>
-
           <button
             type="submit"
             disabled={loading}
-            className="p-2 border border-gray-300 mr-2"
+            className="p-2 bg-blue-500 text-white hover:bg-blue-700"
           >
             Search
           </button>
@@ -144,15 +157,16 @@ function Movies() {
                   }
                   setID(x._id);
                 }}
+                className="text-blue-500 hover:underline block mt-2"
               >
                 Click to View
               </Link>
-              <div className="mt-2 flex items-center" style={{ padding: "2%" }}>
+              <div className="mt-2 flex items-center space-x-2">
                 <button
                   onClick={() => {
                     deleteFilm(x._id);
                   }}
-                  className="mr-2 p-2 bg-red-500 text-white hover:bg-red-700"
+                  className="p-2 bg-red-500 text-white hover:bg-red-700"
                 >
                   Delete Film
                 </button>
@@ -161,7 +175,7 @@ function Movies() {
                     setModifiedTitle(e.target.value);
                   }}
                   placeholder="Update Film Title"
-                  className="p-2 border border-gray-300 mr-2"
+                  className="p-2 border border-gray-300"
                 />
                 <button
                   onClick={() => {

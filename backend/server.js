@@ -17,6 +17,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
+const adminMain = require("./routes/admin/adminMain");
 // const { Socket } = require("socket.io");
 // const test = require("./routes/test");
 // const firebaseHome = require("./routes/fireMain");
@@ -50,6 +51,27 @@ app.use("*", (req, res) => {
   //last resort incase user is trying to access some unknown path
   res.sendFile(join(__dirname, "./views/404", "404.html"));
 });
+
+app.use("/unit", async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password)
+    return res.status(400).json({ Alert: "No username or password found" });
+});
+
+const admin = express();
+admin.use(express.json());
+admin.use(cors());
+admin.use("/main", adminMain);
+
+async function adminBoot() {
+  admin.listen(
+    8001,
+    await mongoose.connect(process.env.CLUSTER2, { useNewUrlParser: true }),
+    console.log(`Admin up on port ${8001}`)
+  );
+}
+
+adminBoot();
 
 async function start() {
   try {

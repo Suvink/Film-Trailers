@@ -7,6 +7,7 @@ const IDWisePage = () => {
   const { status, setStatus, id } = datax;
   const API_URL = "http://localhost:8000";
   const [idData, setIDData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSearchID = async () => {
     try {
@@ -15,19 +16,22 @@ const IDWisePage = () => {
       setStatus(response.data.Alert);
     } catch (error) {
       console.error("Error searching:", error);
-      setStatus(error.response.data.Alert);
+      setStatus(error.response.data.Alert || "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     handleSearchID();
-    console.log(id);
   }, []);
 
   return (
     <div>
       <h2>Testing ID Wise Page</h2>
-      {idData && idData.length ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : idData.length ? (
         <div>
           <h3>Data for ID {id}</h3>
           <ul>
