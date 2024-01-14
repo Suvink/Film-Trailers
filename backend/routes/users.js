@@ -15,14 +15,12 @@ router.get("/arg").get(async (req, res) => {
 
   try {
     const response = await Axios.get(
-      `https://api.api-ninjas.com/v1/animals?name=${
-        (String(arg),
-        {
-          headers: {
-            "X-Api-Key": apiKey,
-          },
-        })
-      }`
+      `https://api.api-ninjas.com/v1/animals?name=${String(arg)}`,
+      {
+        headers: {
+          "X-Api-Key": apiKey,
+        },
+      }
     );
     return res.status(200).json(response);
   } catch (e) {

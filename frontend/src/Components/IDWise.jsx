@@ -1,17 +1,20 @@
 import { useEffect, useState, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
+import { useParams } from "react-router-dom";
 
 const IDWisePage = () => {
   const datax = useContext(UserData);
-  const { status, setStatus, id } = datax;
+  const { status, setStatus } = datax;
   const API_URL = "http://localhost:8000";
   const [idData, setIDData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { id: urlId } = useParams();
+
   const handleSearchID = async () => {
     try {
-      const response = await Axios.post(`${API_URL}/home/${id}`);
+      const response = await Axios.post(`${API_URL}/home/${urlId}`);
       setIDData(response.data);
       setStatus(response.data.Alert);
     } catch (error) {
@@ -33,17 +36,17 @@ const IDWisePage = () => {
         <p>Loading...</p>
       ) : idData.length ? (
         <div>
-          <h3>Data for ID {id}</h3>
+          <h3>Data for ID {urlId}</h3>
           <ul>
             {idData.map((item) => (
               <li key={item.id}>
-                {item.name}: {item.value}
+                {item.title}: {item.description}
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p>Invalid Film</p>
+        <p>No results found</p>
       )}
       <p>{status}</p>
     </div>

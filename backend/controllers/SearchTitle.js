@@ -1,5 +1,4 @@
 const mediaModel = require("../models/media");
-const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 async function IDWise(req, res) {
@@ -23,12 +22,10 @@ async function SearchByTitle(req, res) {
   if (!title || !id) return res.status(400).json({ Alert: "Title not found" });
 
   try {
-    const titleToString = String(title);
-    const titleToID = String(id);
     const matches = await mediaModel.aggregate([
       {
         $match: {
-          $or: [{ title: titleToString }, { _id: titleToID }],
+          $or: [{ title: String(title) }, { _id: String(id) }],
         },
       },
     ]);
@@ -68,7 +65,7 @@ async function UpdateFilm(req, res) {
     const title = req.body?.title;
 
     const filmExists = await mediaModel.findOne({
-      _id: new ObjectId(String(id)),
+      _id: String(id),
     });
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });

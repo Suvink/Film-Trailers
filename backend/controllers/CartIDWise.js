@@ -59,7 +59,7 @@ async function PlaceOrder(req, res) {
 
       await transport.sendMail(mailOptions);
 
-      return res.status(200).json({ Alert: "Order Placed" });
+      return res.status(201).json({ Alert: "Order Placed" });
     }
   } catch (error) {
     console.error(error);

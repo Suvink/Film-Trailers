@@ -43,11 +43,6 @@ const AddFilm = () => {
 
       const { title } = data;
 
-      // const formData = new FormData();
-      // Object.entries(data).forEach(([key, value]) => {
-      //   formData.append(key, value);
-      // });
-
       const response = await Axios.post("http://localhost:8000/home", data);
 
       if (response.status === 201) {

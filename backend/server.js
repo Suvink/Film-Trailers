@@ -18,16 +18,11 @@ const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
 const adminMain = require("./routes/admin/adminMain");
-// const { Socket } = require("socket.io");
-// const test = require("./routes/test");
-// const firebaseHome = require("./routes/fireMain");
-
-// const { Server } = require("socket.io");
-// const io = new Server(app, { cors: { origin: "*" } });
+const rateLimit = require("./limiter");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors()); //allow access from anywhere for now lol
+app.use(cors({ origin: "*" })); //allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
@@ -36,58 +31,52 @@ app.use(helmet());
 app.use(compression({}));
 app.use(express.static(join(__dirname, "public")));
 app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
+
+app.use("*", (req, res, next) => {
+  console.log(req.session);
+  next();
+});
 app.use("/home", homepage);
-app.use("/links", linked);
 app.use("/register", register);
+app.use("/links", linked);
 app.use("/login", login);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
-// app.use("/fire", firebaseHome);
-// app.use("/test", test);
 
 app.use("*", (req, res) => {
   //last resort incase user is trying to access some unknown path
   res.sendFile(join(__dirname, "./views/404", "404.html"));
 });
 
-app.use("/unit", async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password)
-    return res.status(400).json({ Alert: "No username or password found" });
-});
-
 const admin = express();
-admin.use(express.json());
+admin.use(express.json({ limit: "50mb" }));
 admin.use(cors());
 admin.use("/main", adminMain);
 
-async function adminBoot() {
-  admin.listen(
-    8001,
-    await mongoose.connect(process.env.CLUSTER2, { useNewUrlParser: true }),
-    console.log(`Admin up on port ${8001}`)
+async function connectDB() {
+  await mongoose.connect(
+    cluster,
+    { useNewUrlParser: true },
+    console.log(`Connected to Cluster!`)
   );
+}
+
+async function adminBoot() {
+  admin.listen(8001, connectDB(), console.log(`Admin up on port ${8001}`));
 }
 
 adminBoot();
 
-async function start() {
+async function clientBoot() {
   try {
-    await mongoose.connect(cluster, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    console.log("MongoDB connected successfully");
-
     app.listen(port, () => {
-      console.log(`Server is up on port ${port}`);
+      connectDB(), console.log(`Client is up on port ${port}`);
     });
   } catch (err) {
     console.error(err);
   }
 }
 
-start();
+clientBoot();

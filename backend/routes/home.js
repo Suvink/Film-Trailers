@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const FilmMainController = require("../controllers/FilmMains");
 const Search = require("../controllers/SearchTitle");
-// const limiter = require("./limiter");
 
 router
   .route("/")

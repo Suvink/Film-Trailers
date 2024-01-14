@@ -10,7 +10,6 @@ const API_URL = "http://localhost:8000";
 function Movies() {
   const datax = useContext(UserData);
   const { logged, setID } = datax;
-
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -150,7 +149,7 @@ function Movies() {
               <DisplayFilm x={x} />
 
               <Link
-                to={`/data/${x._id}`}
+                to={`/${x._id}`}
                 onClick={() => {
                   if (setID !== "") {
                     setID("");

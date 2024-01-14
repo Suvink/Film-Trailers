@@ -27,13 +27,12 @@ async function CreateUser(req, res) {
     if (!findUser) {
       const x = new HashPassword(password);
       const encrypted = x.hashPass();
-      const newUser = new userSchema({
+      await userSchema.create({
         username,
         password: encrypted,
         mail,
         photo,
       });
-      await newUser.save();
       return res.status(201).json({ Alert: `${username} Saved` });
     } else {
       return res

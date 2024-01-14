@@ -9,6 +9,7 @@ const Login = (props) => {
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
+  // eslint-disable-next-line no-unused-vars
   const { logged, setLogged } = props;
 
   const endPoint = "http://localhost:8000";

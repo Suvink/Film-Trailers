@@ -42,6 +42,7 @@ const Cart = () => {
       console.error(err);
       setStatus(err.response.data.Alert);
     } finally {
+      localStorage.setItem("cart", cart);
       setLoading(false);
 
       nameRef.current.value = "";

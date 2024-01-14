@@ -2,7 +2,8 @@
 
 // const limiter = new RateLimiter({
 //   max: 50,
-//   duration: 1000, //50 reconds every second (1000ms)
+//   duration: 1000,
+//   // 50 requests every second (1000ms) to prevent overload
 // });
 
 // module.exports = limiter;

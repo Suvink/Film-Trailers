@@ -9,6 +9,7 @@ const NewUser = (props) => {
 
   const { setStatus, setLoading, setData, data, loading, status } = datax;
 
+  // eslint-disable-next-line no-unused-vars
   const { setLogged, setUser } = props;
 
   const createUser = async (e) => {

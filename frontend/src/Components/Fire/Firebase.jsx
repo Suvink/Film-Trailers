@@ -5,13 +5,15 @@ import { auth, db } from "./FireConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
+const endPoint = "http://localhost:8000/fire";
+
 const Firebase = () => {
   const [user, setUser] = useState({ mail: "", password: "" });
   const [data, setData] = useState([]);
 
   const testFirelol = async () => {
     try {
-      await Axios.post("http://localhost:8000/fire", user);
+      await Axios.post(endPoint, user);
     } catch (err) {
       console.error(err);
     }

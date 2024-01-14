@@ -1,39 +1,35 @@
 import { useState, useEffect } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
+
+const uri = "http://localhost:4000";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
+    const newSocket = io(uri);
+    setSocket(newSocket);
 
     // Event listeners
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
-
-    socket.on("message", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+    newSocket.on("connect", () => {
+      newSocket.on("message", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
     });
 
     return () => {
-      socket.disconnect();
+      newSocket.disconnect();
     };
-  }, []);
+  }, []); //emits within same window , needs to emit regardless!
 
   const handleSendMessage = () => {
-    if (inputMessage.trim() !== "") {
-      const messageObject = {
-        username,
-        text: inputMessage,
-      };
-
-      Socket.emit("sendMessage", messageObject);
-
+    if (username && inputMessage && socket) {
+      const messageObject = { username, text: inputMessage };
+      socket.emit("message", messageObject);
       setMessages((prevMessages) => [...prevMessages, messageObject]);
-
       setInputMessage("");
     }
   };

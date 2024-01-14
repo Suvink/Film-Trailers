@@ -3,6 +3,8 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 async function GetFilms(req, res) {
+  console.log(req.session);
+  console.log(req.headers.sesion);
   try {
     const videos = await mediaModel.find().sort("createdAt");
     res.json(videos);
@@ -13,9 +15,10 @@ async function GetFilms(req, res) {
 }
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_CLOUD_KEY,
-  api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
+  cloud_name: "dsto9mmt0",
+  api_key: "857482966483428",
+  api_secret: "Vry5wv5flNncSsA3t6km4SQcGnM",
+  secure: true,
 });
 
 async function CreateFilms(req, res) {
@@ -28,7 +31,7 @@ async function CreateFilms(req, res) {
 
     // let photoURL;
     // try {
-    //   // photoURL = await cloudinary.uploader.upload(photo);
+    //   photoURL = await cloudinary.uploader.upload(photo);
     // } catch (uploadError) {
     //   console.error(uploadError);
     //   return res
