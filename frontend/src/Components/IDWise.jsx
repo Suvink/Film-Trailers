@@ -1,13 +1,14 @@
 import { useEffect, useState, useContext } from "react";
-import { UserData } from "../App";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { UserData } from "../App";
+
+const API_URL = "http://localhost:8000";
 
 const IDWisePage = () => {
   const datax = useContext(UserData);
   const { status, setStatus } = datax;
-  const API_URL = "http://localhost:8000";
-  const [idData, setIDData] = useState([]);
+  const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(true);
 
   const { id: urlId } = useParams();
@@ -15,11 +16,11 @@ const IDWisePage = () => {
   const handleSearchID = async () => {
     try {
       const response = await Axios.post(`${API_URL}/home/${urlId}`);
-      setIDData(response.data);
+      setMovie(response.data);
       setStatus(response.data.Alert);
     } catch (error) {
       console.error("Error searching:", error);
-      setStatus(error.response.data.Alert || "An error occurred");
+      setStatus(error.response?.data?.Alert || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -31,19 +32,20 @@ const IDWisePage = () => {
 
   return (
     <div>
-      <h2>Testing ID Wise Page</h2>
       {loading ? (
         <p>Loading...</p>
-      ) : idData.length ? (
+      ) : movie && Object.keys(movie).length ? (
         <div>
-          <h3>Data for ID {urlId}</h3>
-          <ul>
-            {idData.map((item) => (
-              <li key={item.id}>
-                {item.title}: {item.description}
-              </li>
-            ))}
-          </ul>
+          <h1>{movie.title}</h1>
+          <p>{movie.description}</p>
+          <img
+            src={movie.photo || movie.alternate}
+            alt={`Image of ${movie.title}`}
+          ></img>
+          <a href={movie.trailer}>
+            {movie.trailer ? `Trailer for ${movie.title}` : ""}
+          </a>
+          <p>Added on {movie.createdAt}</p>
         </div>
       ) : (
         <p>No results found</p>

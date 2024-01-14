@@ -1,75 +1,50 @@
-import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
 
-const uri = "http://localhost:4000";
+const socket = io("http://localhost:4000/");
 
-const ChatPage = () => {
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState("");
-  const [username, setUsername] = useState("");
-  const [socket, setSocket] = useState(null);
-
+const Socket = () => {
+  const [input, setInput] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+  const [fooEvents, setFooEvents] = useState([]);
   useEffect(() => {
-    const newSocket = io(uri);
-    setSocket(newSocket);
+    socket.on("connect", () => {
+      console.log("Connected to server");
+      setIsConnected(true);
+    });
 
-    // Event listeners
-    newSocket.on("connect", () => {
-      newSocket.on("message", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
+    socket.on("message", (data) => {
+      console.log("Received message:", data);
+      setFooEvents((prevEvents) => [...prevEvents, data]);
     });
 
     return () => {
-      newSocket.disconnect();
+      socket.disconnect();
     };
-  }, []); //emits within same window , needs to emit regardless!
+  }, []);
 
-  const handleSendMessage = () => {
-    if (username && inputMessage && socket) {
-      const messageObject = { username, text: inputMessage };
-      socket.emit("message", messageObject);
-      setMessages((prevMessages) => [...prevMessages, messageObject]);
-      setInputMessage("");
-    }
+  const send = () => {
+    socket.emit("message", input);
+    setInput("");
   };
 
   return (
     <div>
-      <h1>Chats Page</h1>
-      <div>
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="messageInput">Message: </label>
-          <input
-            type="text"
-            id="messageInput"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-          />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
-      </div>
-      <div style={{ marginTop: "20px" }}>
-        <h2>Chat Room</h2>
-        <ul>
-          {messages.map((message, index) => (
-            <li key={index}>
-              <strong>{message.username}:</strong> {message.text}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Enter Input..."
+      />
+      <button onClick={send} disabled={!isConnected}>
+        Send
+      </button>
+      <ul>
+        {fooEvents.map((event, index) => (
+          <li key={index}>{event}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default ChatPage;
+export default Socket;
