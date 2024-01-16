@@ -26,6 +26,21 @@ const IDWisePage = () => {
     }
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    return formattedDate;
+  };
+
   useEffect(() => {
     handleSearchID();
   }, []);
@@ -45,7 +60,7 @@ const IDWisePage = () => {
           <a href={movie.trailer}>
             {movie.trailer ? `Trailer for ${movie.title}` : ""}
           </a>
-          <p>Added on {movie.createdAt}</p>
+          <p>Added on {formatDate(movie.createdAt)}</p>
         </div>
       ) : (
         <p>No results found</p>

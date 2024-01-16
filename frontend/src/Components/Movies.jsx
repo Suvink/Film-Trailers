@@ -102,17 +102,20 @@ function Movies() {
 
   return (
     <>
-      <button onClick={viewBot}>View Bot</button>
+      <button
+        onClick={viewBot}
+        className="bg-blue-500 text-white p-2 hover:bg-blue-700"
+      >
+        View Bot
+      </button>
       {showBot && <BotPage onClose={closeBot} />}
 
-      <div className="mx-auto max-w-2xl p-4">
+      <div className="mx-auto max-w-2xl p-4" style={{ padding: "5%" }}>
         <h1 className="text-3xl font-bold mb-4">
           Welcome {logged ? logged : "Guest"}, {time}
         </h1>
         <form
-          onSubmit={(e) => {
-            handleSearch(e, searchTerm);
-          }}
+          onSubmit={(e) => handleSearch(e, searchTerm)}
           className="flex items-center space-x-2 mb-4"
         >
           <input
@@ -126,9 +129,7 @@ function Movies() {
             <span className="mr-2">Enter limit</span>
             <input
               type="number"
-              onChange={(e) => {
-                setLimit(e.target.value);
-              }}
+              onChange={(e) => setLimit(e.target.value)}
               value={limit}
               className="p-2 border border-gray-300"
             />
@@ -162,24 +163,18 @@ function Movies() {
               </Link>
               <div className="mt-2 flex items-center space-x-2">
                 <button
-                  onClick={() => {
-                    deleteFilm(x._id);
-                  }}
+                  onClick={() => deleteFilm(x._id)}
                   className="p-2 bg-red-500 text-white hover:bg-red-700"
                 >
                   Delete Film
                 </button>
                 <input
-                  onChange={(e) => {
-                    setModifiedTitle(e.target.value);
-                  }}
+                  onChange={(e) => setModifiedTitle(e.target.value)}
                   placeholder="Update Film Title"
                   className="p-2 border border-gray-300"
                 />
                 <button
-                  onClick={() => {
-                    editTitle(x._id, modifiedTitle);
-                  }}
+                  onClick={() => editTitle(x._id, modifiedTitle)}
                   className="p-2 bg-green-500 text-white hover:bg-green-700"
                 >
                   Make changes

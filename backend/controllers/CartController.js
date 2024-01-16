@@ -1,4 +1,6 @@
 const itemModel = require("../models/items");
+const Stripe = require("stripe");
+const stripe = Stripe("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 async function GetCart(req, res) {
   try {
@@ -21,12 +23,21 @@ async function CreateItem(req, res) {
 
     const verifyItem = await itemModel.findOne({ itemName: item });
     if (!verifyItem) {
+      const customer = await stripe.customers.create(
+        {
+          description: "My First Test Customer ",
+        },
+        {
+          idempotencyKey: "KG5LxwFBepaKHyUD",
+        }
+      );
       const newItem = new itemModel({
         itemName: item,
         itemDescription: description,
         itemQuantity: quantity,
         itemPhoto: image,
         itemAvailability: true,
+        customer,
       });
 
       await newItem.save();

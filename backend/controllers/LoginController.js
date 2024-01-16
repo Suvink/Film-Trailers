@@ -1,7 +1,7 @@
 const userController = require("../models/registration");
 const HashPasswordx = require("../security/hashing");
 
-const Login = async (req, res) => {
+const Login = async (req, res, next) => {
   try {
     const { username, password, logged } = req?.body;
 
@@ -29,6 +29,13 @@ const Login = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
+  next();
 };
 
-module.exports = { Login };
+const status = (req, res) => {
+  return req.session.user
+    ? res.status(200).json(request.session.user)
+    : res.status(401).send({ msg: "Not Authenticated!" });
+};
+
+module.exports = { Login, status };

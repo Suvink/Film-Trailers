@@ -1,5 +1,5 @@
 const express = require("express");
-const { createServer } = require("http"); // Import createServer from http module
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const server = express();
@@ -7,7 +7,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-const httpServer = createServer(server); // Pass 'server' to createServer
+const httpServer = createServer(server);
 const io = new Server(httpServer);
 
 io.on("connect", (socket) => {

@@ -9,6 +9,7 @@ const compression = require("compression");
 const mongoose = require("mongoose");
 const homepage = require("./routes/home");
 const { join } = require("path");
+const morgan = require("morgan");
 const fs = require("fs");
 const register = require("./routes/users");
 const login = require("./routes/login");
@@ -19,6 +20,7 @@ const linked = require("./routes/linked");
 const cart = require("./routes/cart");
 const adminMain = require("./routes/admin/adminMain");
 const rateLimit = require("./limiter");
+const session = require("express-session");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -27,6 +29,14 @@ if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
 
+app.use(
+  session({
+    secret: "testing123",
+    saveUninitialized: false,
+    resave: false,
+    cookie: { maxAge: 10000 },
+  })
+);
 app.use(helmet());
 app.use(compression({}));
 app.use(express.static(join(__dirname, "public")));
@@ -35,9 +45,17 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("*", (req, res, next) => {
-  console.log(req.session);
+  console.log(req.session.id);
+  console.log(req.cookies);
   next();
 });
+app.use(
+  morgan("combined", {
+    skip: function (req, res) {
+      return res.statusCode < 400;
+    },
+  })
+);
 app.use("/home", homepage);
 app.use("/register", register);
 app.use("/links", linked);
