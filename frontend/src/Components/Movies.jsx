@@ -150,7 +150,7 @@ function Movies() {
               <DisplayFilm x={x} />
 
               <Link
-                to={`/${x._id}`}
+                to={`film/${x._id}`}
                 onClick={() => {
                   if (setID !== "") {
                     setID("");

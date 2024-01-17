@@ -10,7 +10,6 @@ const DisplayFilm = ({ x }) => {
         alt={`Image of ${x.title}`}
         className="mt-2 rounded-md"
       />
-      <div className="mt-2">awesome!</div>
       <div>
         <p>{x.rating}</p>
       </div>

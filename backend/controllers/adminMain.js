@@ -6,6 +6,7 @@ const admins = async (req, res) => {
     res.status(200).json(admins);
   } catch (err) {
     console.error(err);
+    res.status(500).json(err);
   }
 };
 

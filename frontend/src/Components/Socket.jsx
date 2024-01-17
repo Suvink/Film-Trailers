@@ -7,15 +7,22 @@ const Socket = () => {
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [fooEvents, setFooEvents] = useState([]);
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Connected to server");
       setIsConnected(true);
-    });
 
-    socket.on("message", (data) => {
-      console.log("Received message:", data);
-      setFooEvents((prevEvents) => [...prevEvents, data]);
+      socket.on("message", (data) => {
+        console.log("Received message:", data);
+        setFooEvents((prevEvents) => [...prevEvents, data]);
+      });
+
+      socket.on("remove", (data) => {
+        setFooEvents((prevEvents) =>
+          prevEvents.filter((event) => event !== data)
+        );
+      });
     });
 
     return () => {

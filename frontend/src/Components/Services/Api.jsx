@@ -1,5 +1,6 @@
 import Axios from "axios";
 const API_URL = "http://localhost:8000";
+
 export async function GetMain() {
   const response = await Axios.get(`${API_URL}/home`);
   return response.data;
@@ -23,6 +24,6 @@ export async function DeleteFilm(id) {
 }
 
 export async function GetUserData() {
-  const r = await Axios.get("http://localhost:8000/register");
+  const r = await Axios.get(`${API_URL}/register`);
   return r.data;
 }

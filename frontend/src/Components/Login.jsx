@@ -49,7 +49,7 @@ const Login = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "5%", justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
       <form onSubmit={LogUser}>
         <input
@@ -69,9 +69,11 @@ const Login = (props) => {
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Login"}
         </button>
-        {status}
+        <h1> {status}</h1>
       </form>
+      <br></br>
       <Link to="/newuser">Not an user yet ? Click Here 😊</Link>
+      <br></br>
       <Link to="/forgotpass">Forgot your password ? Click Here</Link>
     </div>
   );

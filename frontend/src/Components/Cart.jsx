@@ -23,7 +23,6 @@ const Cart = () => {
 
   const AddItem = async (e) => {
     e.preventDefault();
-
     try {
       setStatus("");
       setLoading(true);
@@ -44,7 +43,6 @@ const Cart = () => {
     } finally {
       localStorage.setItem("cart", cart);
       setLoading(false);
-
       nameRef.current.value = "";
       descRef.current.value = "";
       quanRef.current.value = 5;
@@ -74,7 +72,6 @@ const Cart = () => {
           onChange={handleChange}
           placeholder="Enter image..."
           defaultValue={cart.image}
-          ref={quanRef}
         />
         <input
           name="quantity"

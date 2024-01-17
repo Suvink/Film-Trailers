@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
-          <Route path="/:id" element={<IDWisePage />} />
+          <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
           <Route path="/chats" element={<ChatPage />} />

@@ -4,7 +4,7 @@ const HashPassword = require("../security/hashing");
 async function GetUsers(req, res) {
   console.log(req.session);
   try {
-    const users = await userSchema.find().sort("createdAt");
+    const users = await userSchema.find();
     res.json(users).status(200);
   } catch (err) {
     console.error(err);

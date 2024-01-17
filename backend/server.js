@@ -19,7 +19,7 @@ const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
 const adminMain = require("./routes/admin/adminMain");
-const rateLimit = require("./limiter");
+const limiter = require("./limiter");
 const session = require("express-session");
 
 app.use(express.json());
@@ -37,7 +37,7 @@ app.use(
     cookie: { maxAge: 10000 },
   })
 );
-app.use(helmet());
+app.use(helmet({}));
 app.use(compression({}));
 app.use(express.static(join(__dirname, "public")));
 app.use(bodyParser.urlencoded());
@@ -56,6 +56,7 @@ app.use(
     },
   })
 );
+
 app.use("/home", homepage);
 app.use("/register", register);
 app.use("/links", linked);
@@ -98,3 +99,34 @@ async function clientBoot() {
 }
 
 clientBoot();
+
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const server = express();
+
+server.use(cors({ origin: "*" }));
+server.use(express.json());
+
+const httpServer = createServer(server);
+const io = new Server(httpServer);
+
+try {
+  io.on("connect", (socket) => {
+    socket.on("message", (data) => {
+      io.broadcast.emit("message", data);
+      console.log(data);
+    });
+
+    socket.on("remove", (data) => {
+      io.emit("remove", data);
+    });
+  });
+} catch (err) {
+  console.error(err);
+} finally {
+  console.log("Disconnect!");
+}
+
+httpServer.listen(4000, () => {
+  console.log("Server is listening on port 4000");
+});

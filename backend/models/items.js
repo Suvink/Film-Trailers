@@ -26,6 +26,10 @@ const userCart = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    userOrder: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserOrder",
+    },
   },
   { timestamps: true }
 );

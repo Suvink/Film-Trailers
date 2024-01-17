@@ -7,7 +7,7 @@ async function GetFilms(req, res) {
   console.log(req.headers.sesion);
   try {
     const videos = await mediaModel.find().sort("createdAt");
-    res.json(videos);
+    res.status(200).json(videos);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

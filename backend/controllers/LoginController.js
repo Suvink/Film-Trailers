@@ -3,7 +3,7 @@ const HashPasswordx = require("../security/hashing");
 
 const Login = async (req, res, next) => {
   try {
-    const { username, password, logged } = req?.body;
+    const { username, password } = req?.body;
 
     if (!username || !password)
       return res
