@@ -74,7 +74,9 @@ const updatePassword = async (req, res) => {
       return res.status(403).json({ Alert: "Email doesn't exist" });
     } else {
       // Update the password for the found user
-      await userSchema.updateOne({ mail: email }, { password: password });
+      await userSchema.updateOne({
+        $set: [{ mail: email }, { password: password }],
+      });
 
       return res
         .status(200)

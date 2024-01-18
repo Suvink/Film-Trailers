@@ -37,6 +37,7 @@ const Socket = () => {
 
   return (
     <div>
+      <h1>Chat Page!</h1>
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -48,7 +49,7 @@ const Socket = () => {
       <ul>
         {fooEvents.map((event, index) => (
           <li key={index}>{event}</li>
-        ))}
+        ))}{" "}
       </ul>
     </div>
   );

@@ -12,12 +12,12 @@ const Login = async (req, res, next) => {
 
     const userValidity = await userController.findOne({ username: username });
     if (!userValidity) {
-      return res.status(404).json({ Alert: `${username} Invalid Username` });
+      return res.status(403).json({ Alert: `${username} Invalid Username` });
     } else {
       const secure = new HashPasswordx();
       const findOut = secure.compare(userValidity, password);
 
-      if (!findOut) return res.status(400).json({ Alert: "Invalid password" });
+      if (!findOut) return res.status(404).json({ Alert: "Invalid password" });
       // if (logged) {
       //   await res.cookie(username, password, { maxAge: 60000 }); //storing user login creds in their system for an hour
       // }
@@ -28,8 +28,12 @@ const Login = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
+
+    next();
+    (req, res) => {
+      console.log("Testing the log!");
+    };
   }
-  next();
 };
 
 // const status = (req, res) => {
@@ -38,4 +42,4 @@ const Login = async (req, res, next) => {
 //     : res.status(401).send({ msg: "Not Authenticated!" });
 // };
 
-module.exports = { Login, status };
+module.exports = { Login };

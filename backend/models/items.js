@@ -26,6 +26,11 @@ const userCart = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    payment: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     userOrder: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserOrder",

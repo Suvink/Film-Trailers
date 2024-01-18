@@ -37,7 +37,7 @@ async function CreateItem(req, res) {
         itemQuantity: quantity,
         itemPhoto: image,
         itemAvailability: true,
-        customer,
+        payment: customer,
       });
 
       await newItem.save();

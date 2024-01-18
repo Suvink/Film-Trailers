@@ -41,17 +41,23 @@ const AddFilm = () => {
     try {
       setLoading(true);
 
-      const { title } = data;
+      const data = new FormData();
+      data.append("title", data.title);
+      data.append("description", data.description);
+      data.append("trailer", data.trailer);
+      data.append("photo", data.photo);
+      data.append("alternate", data.alternate);
+      data.append("rating", data.rating);
 
       const response = await Axios.post("http://localhost:8000/home", data);
 
       if (response.status === 201) {
-        setStatus(`${title} Added`);
+        setStatus(`${data.title} Added`);
         resetForm();
       }
     } catch (err) {
       console.error(err);
-      setStatus("Error adding film");
+      setStatus(`Error adding film: ${err.message}`);
     } finally {
       setLoading(false);
     }

@@ -112,7 +112,7 @@ clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const server = express(); // changed from 'server' to 'express'
+const server = express();
 
 server.use(cors());
 server.use(express.json());
@@ -123,7 +123,7 @@ const io = new Server(httpServer);
 try {
   io.on("connect", (socket) => {
     socket.on("message", (data) => {
-      io.emit("message", data); // changed from 'io.broadcast' to 'io.emit'
+      io.emit("message", data);
       console.log(data);
     });
 
