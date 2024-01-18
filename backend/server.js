@@ -22,9 +22,14 @@ const adminMain = require("./routes/admin/adminMain");
 const limiter = require("./limiter");
 const session = require("express-session");
 
+function midLog(req, res, next) {
+  console.log("Testing!");
+  next();
+}
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "*" })); //allow access from anywhere for now lol
+app.use(cors({ origin: "*" })); // allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
@@ -40,7 +45,7 @@ app.use(
 app.use(helmet({}));
 app.use(compression({}));
 app.use(express.static(join(__dirname, "public")));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
@@ -57,6 +62,7 @@ app.use(
   })
 );
 
+app.use(midLog);
 app.use("/home", homepage);
 app.use("/register", register);
 app.use("/links", linked);
@@ -65,7 +71,7 @@ app.use("/gemini", gemini);
 app.use("/cart", cart);
 
 app.use("*", (req, res) => {
-  //last resort incase user is trying to access some unknown path
+  // last resort in case user is trying to access some unknown path
   res.sendFile(join(__dirname, "./views/404", "404.html"));
 });
 
@@ -77,13 +83,16 @@ admin.use("/main", adminMain);
 async function connectDB() {
   await mongoose.connect(
     cluster,
-    { useNewUrlParser: true },
+    { useNewUrlParser: true, useUnifiedTopology: true }, // added useUnifiedTopology
     console.log(`Connected to Cluster!`)
   );
 }
 
 async function adminBoot() {
-  admin.listen(8001, connectDB(), console.log(`Admin up on port ${8001}`));
+  admin.listen(8001, () => {
+    connectDB();
+    console.log(`Admin up on port ${8001}`);
+  });
 }
 
 adminBoot();
@@ -91,7 +100,8 @@ adminBoot();
 async function clientBoot() {
   try {
     app.listen(port, () => {
-      connectDB(), console.log(`Client is up on port ${port}`);
+      connectDB();
+      console.log(`Client is up on port ${port}`);
     });
   } catch (err) {
     console.error(err);
@@ -102,9 +112,9 @@ clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const server = express();
+const server = express(); // changed from 'server' to 'express'
 
-server.use(cors({ origin: "*" }));
+server.use(cors());
 server.use(express.json());
 
 const httpServer = createServer(server);
@@ -113,7 +123,7 @@ const io = new Server(httpServer);
 try {
   io.on("connect", (socket) => {
     socket.on("message", (data) => {
-      io.broadcast.emit("message", data);
+      io.emit("message", data); // changed from 'io.broadcast' to 'io.emit'
       console.log(data);
     });
 

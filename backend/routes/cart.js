@@ -5,6 +5,6 @@ const CartID = require("../controllers/CartIDWise");
 
 router.route("/").get(CartController.GetCart).post(CartController.CreateItem);
 
-router.route("/:id").post(CartID.PlaceOrder);
+router.route("/:id").post(CartID.PlaceOrder).delete(CartID.deleteItem);
 
 module.exports = router;

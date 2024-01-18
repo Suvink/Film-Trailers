@@ -1,13 +1,18 @@
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect } from "react";
 import Axios from "axios";
-import { useCallback, useEffect } from "react";
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { UserData } from "../App";
 import ItemsPage from "./Items";
-const ViewExisting = () => {
+
+const ViewExisting = (props) => {
+  // const { item, setItem } = props;
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData } = datax;
+  const count = useSelector((state) => state.price);
+  const dispatch = useDispatch();
 
-  const getItems = useCallback(async () => {
+  const getItems = async () => {
     try {
       setLoading(true);
       const r = await Axios.get("http://localhost:8000/cart");
@@ -17,9 +22,9 @@ const ViewExisting = () => {
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setData]);
+  };
 
-  async function Order(id) {
+  const Order = async (id) => {
     try {
       setLoading(true);
       const r = await Axios.post(`http://localhost:8000/cart/${id}`);
@@ -32,13 +37,38 @@ const ViewExisting = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const Delete = async (id) => {
+    try {
+      setLoading(true);
+      const r = await Axios.delete(`http://localhost:8000/cart/${id}`);
+      console.log(r.data);
+      if (r.status === 200) {
+        setStatus("Deleted!");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus(err.response.data.Alert);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getItems();
   }, []);
+
   return (
     <div>
+      <h2>{count}</h2>
+      <button
+        onClick={() => {
+          dispatch({ type: "INCREMENT", payload: 200 });
+        }}
+      >
+        Increase
+      </button>
       <h1 style={{ textAlign: "center" }}>Manage Shop</h1>
       <div>
         {loading ? (
@@ -56,6 +86,14 @@ const ViewExisting = () => {
                   >
                     Order
                   </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      Delete(x._id);
+                    }}
+                  >
+                    Delete
+                  </button>
                   <p>{status}</p>
                 </div>
               ))
@@ -65,8 +103,6 @@ const ViewExisting = () => {
           </div>
         )}
       </div>
-
-      {/**Needs to contain button to click and delete/update specific item */}
     </div>
   );
 };

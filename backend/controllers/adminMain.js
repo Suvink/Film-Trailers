@@ -23,11 +23,9 @@ const createAdmin = async (req, res) => {
 
   if (!validity) {
     await adminModel.create({ username, password, mail });
-    return res.status(200).json({ Alert: `${username} Created` });
+    res.status(200).json({ Alert: `${username} Created` });
   } else {
-    return res
-      .status(409)
-      .json({ Alert: `${username} or ${mail} already taken` });
+    res.status(409).json({ Alert: `${username} or ${mail} already taken` });
   }
 };
 

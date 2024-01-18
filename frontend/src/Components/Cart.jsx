@@ -1,7 +1,9 @@
 import { createRef, useState, useContext } from "react";
+
 import { UserData } from "../App";
 import Axios from "axios";
 import ViewExisting from "./ViewExisting";
+// import WhatPage from "./Test";
 
 const Cart = () => {
   const datax = useContext(UserData);
@@ -13,6 +15,8 @@ const Cart = () => {
     quantity: 5,
     image: "",
   });
+
+  const [item, setItem] = useState([]);
 
   const handleChange = (e) => {
     setCart({ ...cart, [e.target.name]: e.target.value });
@@ -85,7 +89,7 @@ const Cart = () => {
       </form>
       <p>{status}</p>
       <br></br>
-      <ViewExisting />
+      <ViewExisting item={item} setItem={setItem} />
     </div>
   );
 };

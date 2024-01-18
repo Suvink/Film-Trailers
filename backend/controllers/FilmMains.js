@@ -6,7 +6,7 @@ async function GetFilms(req, res) {
   console.log(req.session);
   console.log(req.headers.sesion);
   try {
-    const videos = await mediaModel.find().sort("createdAt");
+    const videos = await mediaModel.find();
     res.status(200).json(videos);
   } catch (error) {
     console.error(error);
@@ -42,7 +42,7 @@ async function CreateFilms(req, res) {
     const filmExists = await mediaModel.findOne({ title: title });
 
     if (!filmExists) {
-      const newMovie = new mediaModel({
+      await mediaModel.create({
         title,
         description,
         trailer,
@@ -51,7 +51,6 @@ async function CreateFilms(req, res) {
         rating,
       });
 
-      await newMovie.save();
       return res.status(201).json({ alert: `${title} saved` });
     } else {
       return res.status(409).json({ alert: `${title} already exists` });

@@ -15,6 +15,7 @@ import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
 import Firebase from "./Components/Fire/Firebase";
+import WhatPage from "./Components/Test";
 
 // import TestPage from "../../Test";
 
@@ -51,6 +52,7 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />} />
+          <Route path="/test" element={<WhatPage></WhatPage>}></Route>
           <Route path="/fire" element={<Firebase></Firebase>}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />

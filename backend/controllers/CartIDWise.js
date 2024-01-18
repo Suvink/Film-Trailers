@@ -1,5 +1,6 @@
 const UserOrder = require("../models/userOrder");
 const itemModel = require("../models/items");
+const mongoose = require("mongoose");
 
 // const nodemailer = require("nodemailer");
 // let transporter = nodemailer.createTransport({ //haven't setup nodemailer yet, it's like an auto mailing system
@@ -69,4 +70,27 @@ async function PlaceOrder(req, res) {
   }
 }
 
-module.exports = { PlaceOrder };
+const deleteItem = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+    if (!isValidObjectId) {
+      return res.status(400).json({ error: "Invalid ObjectId format" });
+    }
+
+    const result = await UserOrder.deleteOne({ _id: id });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    return res.status(200).json({ message: "Item deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { PlaceOrder, deleteItem };

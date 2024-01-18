@@ -21,7 +21,7 @@ const Login = async (req, res, next) => {
       // if (logged) {
       //   await res.cookie(username, password, { maxAge: 60000 }); //storing user login creds in their system for an hour
       // }
-      await res.cookie(username, password, { maxAge: 60000 });
+      await res.cookie(username, password, { maxAge: 60000 }); //60 mins in ms!
       return res.status(200).json({
         Alert: `${username} logged in!`,
       });
