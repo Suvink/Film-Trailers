@@ -32,10 +32,10 @@ const Login = async (req, res, next) => {
   next();
 };
 
-const status = (req, res) => {
-  return req.session.user
-    ? res.status(200).json(request.session.user)
-    : res.status(401).send({ msg: "Not Authenticated!" });
-};
+// const status = (req, res) => {
+//   return req.session.user
+//     ? res.status(200).json(request.session.user)
+//     : res.status(401).send({ msg: "Not Authenticated!" });
+// };
 
 module.exports = { Login, status };
