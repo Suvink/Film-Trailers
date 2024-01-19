@@ -46,8 +46,7 @@ async function SearchByTitle(req, res) {
 async function DeleteItems(req, res) {
   try {
     const id = req?.params?.id;
-    const convertedString = String(id);
-    const filmExists = await mediaModel.findOne({ _id: convertedString });
+    const filmExists = await mediaModel.findOne({ _id: String(id) });
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
     } else {

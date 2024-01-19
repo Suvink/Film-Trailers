@@ -49,7 +49,9 @@ const AddFilm = () => {
       data.append("alternate", data.alternate);
       data.append("rating", data.rating);
 
-      const response = await Axios.post("http://localhost:8000/home", data);
+      const response = await Axios.post("http://localhost:8000/home", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.status === 201) {
         setStatus(`${data.title} Added`);

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/UserController");
 const Axios = require("axios");
-const apiKey = "";
+const apiKey = "Iwasntabletoget";
 
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
@@ -15,7 +15,7 @@ router.get("/arg").get(async (req, res) => {
 
   try {
     const response = await Axios.get(
-      `https://api.api-ninjas.com/v1/animals?name=${String(arg)}`,
+      `https://api.api-ninjas.com/v1/animals?name=${arg}`,
       {
         headers: {
           "X-Api-Key": apiKey,
@@ -25,6 +25,7 @@ router.get("/arg").get(async (req, res) => {
     return res.status(200).json(response);
   } catch (e) {
     console.log(e.error);
+    return res.status(500).json(e);
   }
 });
 

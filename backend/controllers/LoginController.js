@@ -35,7 +35,7 @@ const Login = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    next(err); // Pass the error to the error-handling middleware
+    next(err);
   }
 };
 

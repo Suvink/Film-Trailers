@@ -34,14 +34,6 @@ if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
 
-app.use(
-  session({
-    secret: "testing123",
-    saveUninitialized: false,
-    resave: false,
-    cookie: { maxAge: 10000 },
-  })
-);
 app.use(helmet({}));
 app.use(compression({}));
 app.use(express.static(join(__dirname, "public")));
@@ -50,10 +42,26 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("*", (req, res, next) => {
-  console.log(req.session.id);
-  console.log(req.cookies);
+  console.log(JSON.stringify(req.session));
+  console.log(JSON.stringify(req.cookies));
   next();
 });
+app.use(
+  session({
+    secret: "testing123",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 10000,
+      secure: true,
+      httpOnly: true,
+      domain: "*",
+      path: "foo/bar",
+      expires: 60000, //1 hour in ms
+    },
+  })
+);
+
 app.use(
   morgan("combined", {
     skip: function (req, res) {

@@ -82,7 +82,7 @@ const deleteItem = async (req, res) => {
 
     const result = await UserOrder.deleteOne({ _id: id });
 
-    if (result.deletedCount === 0) {
+    if (!result) {
       return res.status(404).json({ error: "Item not found" });
     }
 

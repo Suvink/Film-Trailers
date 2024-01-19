@@ -3,6 +3,8 @@ import { useState, useRef, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { googleProvider, auth } from "./Fire/FireConfig";
+import { signInWithPopup, signOut } from "firebase/auth";
 
 const Login = (props) => {
   const { status, setStatus, loading, setLoading } = useContext(UserData);
@@ -13,6 +15,8 @@ const Login = (props) => {
   const { logged, setLogged } = props;
 
   const endPoint = "http://localhost:8000";
+
+  console.log(auth?.currentUser?.email);
 
   async function LogUser(e) {
     e.preventDefault();
@@ -44,6 +48,25 @@ const Login = (props) => {
     }
   }
 
+  const signUpGoogle = async () => {
+    try {
+      const response = await signInWithPopup(auth, googleProvider);
+      if (response === true) {
+        setLogged(true);
+        setStatus("Google sign-in successful");
+      } else {
+        setStatus("Error while logging in!");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("Failed to sign in with Google");
+    }
+  };
+
+  const logOut = async () => {
+    await signOut(auth);
+  };
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -69,6 +92,9 @@ const Login = (props) => {
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Login"}
         </button>
+        <button onClick={signUpGoogle}>Sign Up With Google!</button>
+        <br></br>
+        <button onClick={logOut}>Log Out!</button>
         <h1> {status}</h1>
       </form>
       <br></br>

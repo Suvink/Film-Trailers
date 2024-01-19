@@ -14,7 +14,6 @@ import ViewExisting from "./Components/ViewExisting";
 import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
-import Firebase from "./Components/Fire/Firebase";
 import WhatPage from "./Components/Test";
 
 // import TestPage from "../../Test";
