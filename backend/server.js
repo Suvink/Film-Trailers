@@ -23,11 +23,11 @@ const limiter = require("./limiter");
 const session = require("express-session");
 
 function midLog(req, res, next) {
-  console.log("Testing!");
+  console.log(`Request coming from ${req.url} \nMethod-> ${req.method}`);
   next();
 }
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(cors({ origin: "*" })); // allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
@@ -35,11 +35,9 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 }
 
 app.use(helmet({}));
-app.use(compression({}));
+app.use(compression({ filter: false }));
 app.use(express.static(join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(bodyParser.json());
 
 app.use("*", (req, res, next) => {
   console.log(JSON.stringify(req.session));

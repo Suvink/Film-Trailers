@@ -36,7 +36,7 @@ const BotPage = () => {
         ) : response.length ? (
           response.map((item, index) => (
             <div key={index}>
-              {item.split("\\n").map((line, i) => (
+              {item.replace("\n", "").map((line, i) => (
                 <h1 key={i}>{line}</h1>
               ))}
             </div>

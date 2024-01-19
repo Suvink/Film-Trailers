@@ -10,24 +10,24 @@ const Login = async (req, res, next) => {
         .status(400)
         .json({ Alert: `Username or password not provided` });
 
-    const userValidity = await userController.findOne({ username: username });
+    const userValidity = await userController
+      .findOne({ username: username })
+      .exec();
+
     if (!userValidity) {
       return res.status(403).json({ Alert: `${username} Invalid Username` });
     } else {
       const secure = new HashPasswordx();
-      const passwordMatch = secure.compare(userValidity.password, password);
+      const passwordMatch = await secure.compare(
+        password,
+        userValidity.password
+      );
 
       if (!passwordMatch)
         return res.status(404).json({ Alert: "Invalid password" });
 
-      // Store user information in the session
-      req.session.user = { username, password };
-
-      console.log(
-        req.session.user
-          ? `The user is -> ${JSON.stringify(req.session.user)}` //shows sesssion username and password!
-          : "Unauthenticated!"
-      );
+      // Set the "user" cookie to be sent in the response
+      res.cookie("user", { username, password }, { maxAge: 60000 });
 
       return res.status(200).json({
         Alert: `${username} logged in!`,
@@ -35,15 +35,17 @@ const Login = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    next(err);
   }
+  next();
+  status();
 };
 
 const status = (req, res) => {
-  if (req.session.user) {
-    res.status(200).json({ message: "Authenticated", user: req.session.user });
+  // Check if the "user" cookie is present in the request
+  if (req.cookies.user) {
+    console.log("Load back!");
   } else {
-    res.status(401).json({ message: "Not Authenticated!" });
+    console.log("Cannot Load!");
   }
 };
 
