@@ -11,47 +11,48 @@ const Login = (props) => {
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
-  // eslint-disable-next-line no-unused-vars
-  const { logged, setLogged } = props;
+  const { setLogged } = props;
 
   const endPoint = "http://localhost:8000";
 
   console.log(auth?.currentUser?.email);
 
-  async function LogUser(e) {
+  const LogUser = async (e) => {
     e.preventDefault();
     if (status !== "") {
       setStatus("");
     }
 
     const { username, password } = data;
+
     try {
       setLoading(true);
-      const r = await Axios.post(`${endPoint}/login`, {
+      const response = await Axios.post(`${endPoint}/login`, {
         username,
         password,
-      }).then(() => {
-        if (r.response.status === 200) {
-          setStatus("User Logged in");
-          setLogged(true);
-          window.location.href = "http://localhost:5173/";
-        } else if (r.response.status === 404) {
-          setStatus("Username or Password invalid, please try again!");
-        } else {
-          setStatus("Something went wrong!");
-        }
       });
+
+      if (response.status === 200) {
+        setStatus("User Logged in");
+        setLogged(true);
+        window.location.href = "http://localhost:5173/";
+      } else if (response.status === 404) {
+        setStatus("Username or Password invalid, please try again!");
+      } else {
+        setStatus("Something went wrong!");
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const signUpGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
-      if (response === true) {
+
+      if (response && response.user) {
         setLogged(true);
         setStatus("Google sign-in successful");
       } else {
@@ -63,8 +64,12 @@ const Login = (props) => {
     }
   };
 
-  const logOut = async () => {
-    await signOut(auth);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleChange = (e) => {
@@ -94,13 +99,13 @@ const Login = (props) => {
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
         <br></br>
-        <button onClick={logOut}>Log Out!</button>
+        <button onClick={handleLogout}>Log Out!</button>
         <h1> {status}</h1>
       </form>
       <br></br>
-      <Link to="/newuser">Not an user yet ? Click Here 😊</Link>
+      <Link to="/newuser">Not a user yet? Click Here 😊</Link>
       <br></br>
-      <Link to="/forgotpass">Forgot your password ? Click Here</Link>
+      <Link to="/forgotpass">Forgot your password? Click Here</Link>
     </div>
   );
 };

@@ -52,7 +52,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Movies />} />
           <Route path="/test" element={<WhatPage></WhatPage>}></Route>
-          <Route path="/fire" element={<Firebase></Firebase>}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
           <Route path="/newuser" element={<NewUser />} />
