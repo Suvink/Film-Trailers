@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
+import { Transition } from "@headlessui/react";
 
 const API_URL = "http://localhost:8000";
 
@@ -147,7 +148,7 @@ function Movies() {
           <RingLoader></RingLoader>
         ) : data && data.length ? (
           data.map((x) => (
-            <div key={x._id} className="mt-4 border p-4 rounded-md shadow-md">
+            <div key={x._id} className="data-headlessui-state">
               <DisplayFilm x={x} />
               <Link
                 to={`film/${x._id}`}

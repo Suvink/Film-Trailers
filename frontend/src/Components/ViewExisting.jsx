@@ -64,6 +64,7 @@ const ViewExisting = (props) => {
     <div>
       <h2>{count}</h2>
       <button
+        className="place-items-center"
         onClick={() => {
           dispatch({ type: "INCREMENT", payload: 200 });
         }}
