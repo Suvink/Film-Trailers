@@ -15,6 +15,7 @@ import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
 import WhatPage from "./Components/Test";
+import Footer from "./Misc/Footer";
 
 // import TestPage from "../../Test";
 
@@ -65,6 +66,7 @@ export default function App() {
           <Route path="/viewShop" element={<ViewExisting />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <Footer></Footer>
       </UserData.Provider>
     </BrowserRouter>
   );

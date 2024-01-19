@@ -41,6 +41,8 @@ const BotPage = () => {
               ))}
             </div>
           ))
+        ) : data === "" ? (
+          ""
         ) : (
           <p>No results found</p>
         )}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useRef, useContext } from "react";
 import { UserData } from "../App";
@@ -32,12 +33,11 @@ const Login = (props) => {
         password,
       });
 
-      if (response.status === 200) {
-        setStatus("User Logged in");
+      if (response.data.status === 200) {
+        setStatus(response.data.data.Alert);
         setLogged(true);
-        window.location.href = "http://localhost:5173/";
-      } else if (response.status === 404) {
-        setStatus("Username or Password invalid, please try again!");
+      } else if (response.data.status === 404) {
+        setStatus(response.data.data.Alert);
       } else {
         setStatus("Something went wrong!");
       }
