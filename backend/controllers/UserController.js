@@ -1,14 +1,16 @@
 const userSchema = require("../models/registration");
 const HashPassword = require("../security/hashing");
 
-async function GetUsers(req, res) {
-  console.log(req.session);
+async function GetUsers(req, res, next) {
   try {
-    const users = await userSchema.find();
+    const users = await userSchema.find().sort("createdAt");
     res.json(users).status(200);
   } catch (err) {
     console.error(err);
   }
+  next((req, res) => {
+    console.log(`Requested by ${req.url}`);
+  });
 }
 
 async function CreateUser(req, res) {

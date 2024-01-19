@@ -18,10 +18,7 @@ const Login = async (req, res, next) => {
       return res.status(403).json({ Alert: `${username} Invalid Username` });
     } else {
       const secure = new HashPasswordx();
-      const passwordMatch = await secure.compare(
-        password,
-        userValidity.password
-      );
+      const passwordMatch = secure.compare(password, userValidity.password);
 
       if (!passwordMatch)
         return res.status(404).json({ Alert: "Invalid password" });

@@ -7,7 +7,7 @@ import ViewExisting from "./ViewExisting";
 
 const Cart = () => {
   const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading } = datax;
+  const { status, setStatus, loading, setLoading, RingLoader } = datax;
 
   const [cart, setCart] = useState({
     item: "",
@@ -85,7 +85,9 @@ const Cart = () => {
           defaultValue={cart.quantity}
           ref={quanRef}
         />
-        <button type="submit">{loading ? "Loading..." : "Add to Cart"}</button>
+        <button type="submit">
+          {loading ? <RingLoader></RingLoader> : "Add to Cart"}
+        </button>
       </form>
       <p>{status}</p>
       <br></br>

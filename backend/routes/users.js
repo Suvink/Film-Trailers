@@ -4,13 +4,15 @@ const userController = require("../controllers/UserController");
 const Axios = require("axios");
 const apiKey = "PGjIDFqBXtYMIDXPYE0FDQ==NzRPfBSaZRRY2SVW";
 
+const data = [];
+
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
 router.route("/:id").delete(userController.deleteUser);
 
 router.route("/forgot").post(userController.updatePassword);
 
-router.get("/arg", async (req, res) => {
+router.get("/arg", async (req, res, next) => {
   const { arg } = req?.body;
 
   try {
@@ -24,6 +26,7 @@ router.get("/arg", async (req, res) => {
         },
       }
     );
+
     return res.status(200).json(response.data);
   } catch (e) {
     console.error(e);

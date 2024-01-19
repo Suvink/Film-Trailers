@@ -2,7 +2,7 @@ const adminModel = require("../models/admin");
 
 const admins = async (req, res) => {
   try {
-    const admins = await adminModel.find();
+    const admins = await adminModel.find().sort("createdAt");
     res.status(200).json(admins);
   } catch (err) {
     console.error(err);

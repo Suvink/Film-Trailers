@@ -4,7 +4,8 @@ import { UserData } from "../App";
 
 const ForgotPass = () => {
   const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading, data, setData } = datax;
+  const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
+    datax;
 
   const ForgotPass = async (e) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ const ForgotPass = () => {
           placeholder="Enter Updated Password"
         ></input>
         <button disabled={loading}>
-          {loading ? "Loading..." : "Forgot Password"}
+          {loading ? <RingLoader></RingLoader> : "Forgot Password"}
         </button>
       </form>
       <p>{status}</p>

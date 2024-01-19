@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const AddFilm = () => {
   const datax = useContext(UserData);
 
-  const { status, setStatus, loading, setLoading } = datax;
+  const { status, setStatus, loading, setLoading, RingLoader } = datax;
 
   const [data, setData] = useState({
     title: "",
@@ -103,7 +103,7 @@ const AddFilm = () => {
           placeholder="Enter rating"
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Add Film"}
+          {loading ? <RingLoader></RingLoader> : "Add Film"}
         </button>
         <h1>{status}</h1>
       </form>

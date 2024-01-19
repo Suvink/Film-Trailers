@@ -9,7 +9,7 @@ const API_URL = "http://localhost:8000";
 
 function Movies() {
   const datax = useContext(UserData);
-  const { logged, setID } = datax;
+  const { logged, setID, RingLoader } = datax;
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -142,13 +142,13 @@ function Movies() {
             Search
           </button>
         </form>
+        <br></br>
         {loading ? (
-          <h1 className="mt-4 text-xl font-bold">Loading...</h1>
+          <RingLoader></RingLoader>
         ) : data && data.length ? (
           data.map((x) => (
             <div key={x._id} className="mt-4 border p-4 rounded-md shadow-md">
               <DisplayFilm x={x} />
-
               <Link
                 to={`film/${x._id}`}
                 onClick={() => {

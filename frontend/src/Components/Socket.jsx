@@ -6,27 +6,32 @@ const socket = io("http://localhost:4000/");
 const Socket = () => {
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
-  const [fooEvents, setFooEvents] = useState([]);
+  const [userMessages, setUserMessages] = useState([]);
+  const [systemMessages, setSystemMessages] = useState([]);
 
   useEffect(() => {
-    socket.on("connect", () => {
+    const handleConnect = () => {
       console.log("Connected to server");
       setIsConnected(true);
+    };
 
-      socket.on("message", (data) => {
-        console.log("Received message:", data);
-        setFooEvents((prevEvents) => [...prevEvents, data]);
-      });
+    const handleUserMessage = (message) => {
+      console.log("Received user message:", message);
+      setUserMessages((prevMessages) => [...prevMessages, message]);
+    };
 
-      socket.on("remove", (data) => {
-        setFooEvents((prevEvents) =>
-          prevEvents.filter((event) => event !== data)
-        );
-      });
-    });
+    const handleSystemMessage = (message) => {
+      console.log("Received system message:", message);
+      setSystemMessages((prevMessages) => [...prevMessages, message]);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("message", handleUserMessage);
+    socket.on("remove", handleSystemMessage);
 
     return () => {
       socket.disconnect();
+      setIsConnected(false);
     };
   }, []);
 
@@ -47,10 +52,11 @@ const Socket = () => {
         Send
       </button>
       <ul>
-        {fooEvents.map((event, index) => (
-          <li key={index}>{event}</li>
-        ))}{" "}
+        {userMessages.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
       </ul>
+      <p>{JSON.stringify(systemMessages)}</p>
     </div>
   );
 };

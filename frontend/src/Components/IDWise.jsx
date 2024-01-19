@@ -7,7 +7,7 @@ const API_URL = "http://localhost:8000";
 
 const IDWisePage = () => {
   const datax = useContext(UserData);
-  const { status, setStatus } = datax;
+  const { status, setStatus, RingLoader } = datax;
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -48,7 +48,7 @@ const IDWisePage = () => {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <RingLoader></RingLoader>
       ) : movie && Object.keys(movie).length ? (
         <div>
           <h1>{movie.title}</h1>

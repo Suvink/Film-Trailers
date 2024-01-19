@@ -8,7 +8,8 @@ import { googleProvider, auth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 
 const Login = (props) => {
-  const { status, setStatus, loading, setLoading } = useContext(UserData);
+  const { status, setStatus, loading, setLoading, RingLoader } =
+    useContext(UserData);
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
@@ -95,7 +96,7 @@ const Login = (props) => {
           name="password"
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Login"}
+          {loading ? <RingLoader></RingLoader> : "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
         <br></br>

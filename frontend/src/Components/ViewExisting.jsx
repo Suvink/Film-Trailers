@@ -8,7 +8,8 @@ import ItemsPage from "./Items";
 const ViewExisting = (props) => {
   // const { item, setItem } = props;
   const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading, data, setData } = datax;
+  const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
+    datax;
   const count = useSelector((state) => state.price);
   const dispatch = useDispatch();
 
@@ -72,7 +73,7 @@ const ViewExisting = (props) => {
       <h1 style={{ textAlign: "center" }}>Manage Shop</h1>
       <div>
         {loading ? (
-          <h1>Loading...</h1>
+          <RingLoader></RingLoader>
         ) : (
           <div>
             {data && data.length ? (

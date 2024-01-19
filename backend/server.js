@@ -21,9 +21,16 @@ const cart = require("./routes/cart");
 const adminMain = require("./routes/admin/adminMain");
 const limiter = require("./limiter");
 const session = require("express-session");
+const passport = require("passport");
 
 function midLog(req, res, next) {
-  console.log(`Request coming from ${req.url} \nMethod-> ${req.method}`);
+  console.log(
+    `Request coming from ${req.url} \nMethod-> ${
+      req.method
+    }\nCookies -> ${JSON.stringify(req.cookie)}\nSession -> ${JSON.stringify(
+      req.session
+    )}\n${req.headers.cookie}`
+  );
   next();
 }
 
@@ -67,7 +74,12 @@ app.use(
     },
   })
 );
-
+// app.use(
+//   passport((err, data) => {
+//     if (err) throw err;
+//     console.log("Will be used for OAuth!");
+//   })
+// );
 app.use(midLog);
 app.use("/home", homepage);
 app.use("/register", register);
@@ -118,6 +130,7 @@ clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+
 const server = express();
 
 server.use(cors());

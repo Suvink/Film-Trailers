@@ -5,7 +5,7 @@ import { UserData } from "../App";
 const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
   const datax = useContext(UserData);
-  const { loading, setLoading } = datax;
+  const { loading, setLoading, RingLoader } = datax;
 
   async function UserDatax() {
     try {
@@ -42,7 +42,7 @@ const DisplayUsers = () => {
   return (
     <div>
       {loading ? (
-        "loading..."
+        <RingLoader></RingLoader>
       ) : users && users.length ? (
         users.map((x) => (
           <div key={x._id}>

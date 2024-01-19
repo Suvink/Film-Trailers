@@ -16,6 +16,8 @@ import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
 import WhatPage from "./Components/Test";
 import Footer from "./Misc/Footer";
+import FireData from "./Components/Data";
+import RingLoader from "react-spinners/RingLoader";
 
 // import TestPage from "../../Test";
 
@@ -33,6 +35,14 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [id, setID] = useState("");
 
+  <RingLoader
+    color="#36d7b7"
+    height={4}
+    width={100}
+    loading={loading}
+    speedMultiplier={1}
+  />;
+
   return (
     <BrowserRouter>
       <UserData.Provider
@@ -47,10 +57,12 @@ export default function App() {
           id,
           data,
           setData,
+          RingLoader,
         }}
       >
         <Navbar></Navbar>
         <Routes>
+          <Route path="/data" element={<FireData></FireData>}></Route>
           <Route path="/" element={<Movies />} />
           <Route path="/test" element={<WhatPage></WhatPage>}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>

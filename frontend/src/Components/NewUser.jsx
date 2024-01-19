@@ -7,7 +7,8 @@ import Axios from "axios";
 const NewUser = (props) => {
   const datax = useContext(UserData);
 
-  const { setStatus, setLoading, setData, data, loading, status } = datax;
+  const { setStatus, setLoading, setData, data, loading, status, RingLoader } =
+    datax;
 
   // eslint-disable-next-line no-unused-vars
   const { setLogged, setUser } = props;
@@ -72,7 +73,7 @@ const NewUser = (props) => {
         <input onChange={handleChange} placeholder="Enter Photo" name="photo" />
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Create User"}
+          {loading ? <RingLoader></RingLoader> : "Create User"}
         </button>
       </form>
       <p>
