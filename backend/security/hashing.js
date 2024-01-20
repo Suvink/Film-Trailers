@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-class HashPasswordx {
+class HashPasswordx { 
   constructor(password) {
     this.password = password;
   }
@@ -10,7 +10,7 @@ class HashPasswordx {
 
   compare(userValidity, password) {
     if (!userValidity || !userValidity.password) {
-      return "Invalid user data";
+      return "Invalid user data"; // Let's return a boolean here
     }
 
     const passwordValidity = bcrypt.compareSync(

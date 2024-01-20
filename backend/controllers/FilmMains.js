@@ -10,7 +10,7 @@ async function GetFilms(req, res) {
       res.status(200).json(videos);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: "Internal Server Error" }); // Let's move the error codes to an enum
     }
   } else {
     const found = await mediaModel.findOne({ _id: String(id) }); //if id is given!
@@ -25,7 +25,7 @@ async function GetFilms(req, res) {
 cloudinary.config({
   cloud_name: "dsto9mmt0",
   api_key: "857482966483428",
-  api_secret: "Vry5wv5flNncSsA3t6km4SQcGnM",
+  api_secret: "Vry5wv5flNncSsA3t6km4SQcGnM", // Let's move these secrets to an env variable
   secure: true,
 });
 
@@ -52,6 +52,10 @@ async function CreateFilms(req, res) {
 
     // Check if the film already exists
     const filmExists = await mediaModel.findOne({ title: title });
+
+    // You need a rollback mechanism here. Youre checking if the film exists after uploading the photo to cloudinary.
+    // What if the film exists but the photo is already uploaded? You'll have to delete the photo from cloudinary.
+    // Maybe first check the film exists, then upload the photo to cloudinary, then create the film.
 
     if (!filmExists) {
       // Create and save the film

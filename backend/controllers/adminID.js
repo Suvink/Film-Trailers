@@ -4,6 +4,14 @@ const deleteAdmin = async (req, res) => {
   const { id } = req?.params;
   if (!id) return res.status(400).json({ Alert: "No ID" });
 
+  // Let's have a propoer error message structure.
+  // Something like,
+  // {
+  //   code: "FT-ADMIN_ID-DA-NF01", >> FT = Film Trailers, ADMIN_ID = Admin ID (File Name), DA = deleteAdmin (Method name), NF = Not Found, 01 = 01
+  //   message: "No user ID was provided.",
+  //   description: "Unable to delete the user as no user ID was provided."
+  // }
+
   const existing = await adminMain.findOne({ _id: String(id) });
   if (existing) {
     await adminMain.deleteOne({ _id: String(id) });
