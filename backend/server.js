@@ -23,7 +23,16 @@ const limiter = require("./limiter");
 const session = require("express-session");
 const passport = require("passport");
 
-function midLog(req, res, next) {
+// When importing these dependancies, first import the stuff from packages. Then import the things from local files.
+// It's not a rule but a best practice we use commonly.
+
+
+// Lets create a separate directory called middleware and put all the middleware functions there.
+function midLog(req, res, next) { // Res is not used so let's remove that.
+  // Now if you need a logger util, you can use Chalk (https://www.npmjs.com/package/chalk) to pretty print these.
+  // The best practise is that you have different levels of logs. Example: Info, Error, Debug, Warn etc.
+  // Use color codes for each level. Example: Info - Green, Error - Red, Debug - Yellow, Warn - Orange etc.
+  // Also add an environment variable to set the log level and another one to enable/disable logs. Eg: LOG_LEVEL=DEBUG, ENABLE_LOGS=true
   console.log(
     `Request coming from ${req.url} \nMethod-> ${
       req.method
@@ -34,7 +43,7 @@ function midLog(req, res, next) {
   next();
 }
 
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "50mb" })); // Lets move these constants to a separate file.
 app.use(cookieParser());
 app.use(cors({ origin: "*" })); // allow access from anywhere for now lol
 if (!fs.existsSync(join(__dirname, "public"))) {
@@ -68,7 +77,7 @@ app.use(
 );
 
 app.use(
-  morgan("combined", {
+  morgan("combined", { // You can combine this with Chalk and have a good logger util.
     skip: function (req, res) {
       return res.statusCode < 400;
     },
@@ -90,7 +99,8 @@ app.use("/cart", cart);
 
 app.use("*", (req, res) => {
   // last resort in case user is trying to access some unknown path
-  res.sendFile(join(__dirname, "./views/404", "404.html"));
+  res.sendFile(join(__dirname, "./views/404", "404.html")); 
+  // Since you're writing an API, shall we just send a 404 response instead of sending a HTML file?
 });
 
 const admin = express();
@@ -102,11 +112,11 @@ async function connectDB() {
   await mongoose.connect(
     cluster,
     { useNewUrlParser: true, useUnifiedTopology: true }, // added useUnifiedTopology
-    console.log(`Connected to Cluster!`)
+    console.log(`Connected to Cluster!`) // Let's move these logs to a logger util.
   );
 }
 
-async function adminBoot() {
+async function adminBoot() { // Why do we use an async function here?
   admin.listen(8001, () => {
     connectDB();
     console.log(`Admin up on port ${8001}`);
@@ -115,7 +125,7 @@ async function adminBoot() {
 
 adminBoot();
 
-async function clientBoot() {
+async function clientBoot() { // Why do we use an async function here?
   try {
     app.listen(port, () => {
       connectDB();
@@ -129,9 +139,9 @@ async function clientBoot() {
 clientBoot();
 
 const { createServer } = require("http");
-const { Server } = require("socket.io");
+const { Server } = require("socket.io"); // Let's move these to the very top of the file
 
-const server = express();
+const server = express();  // IMO it's better to separate the socket server from the express server.
 
 server.use(cors());
 server.use(express.json());
